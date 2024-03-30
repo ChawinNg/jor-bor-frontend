@@ -1,19 +1,22 @@
 import mongoose from "mongoose";
 
-let isConnected = false;
+export class Mongo {
+  private static instance: typeof mongoose;
+  public static async getInstance(): Promise<mongoose.Connection> {
+    if (this.instance === undefined) {
+      const MONGODB_URL = process.env.MONGODB_URL;
+      if (!MONGODB_URL) throw new Error("Please define MONGO_URI");
 
-export const dbConnect = async () => {
-  mongoose.set("strictQuery", true);
-  if (isConnected) return;
+      try {
+        this.instance = await mongoose.connect(MONGODB_URL, {
+          bufferCommands: false,
+        });
+        console.log("Connected");
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
-  const MONGO_URI = process.env.MONGODB_URL;
-  if (!MONGO_URI) throw new Error("Please define MONGO_URI");
-
-  try {
-    await mongoose.connect(MONGO_URI, { bufferCommands: false });
-    isConnected = true;
-    console.log("Connected");
-  } catch (error) {
-    console.log(error);
+    return this.instance.connection;
   }
-};
+}
