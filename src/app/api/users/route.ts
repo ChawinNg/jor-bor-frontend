@@ -1,21 +1,28 @@
 import { Mongo } from "@/db/db";
 import { IUser } from "@/shared/models/User";
+import { ReturnError } from "@/utils/async";
 import mongoose, { MongooseError } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const db = await Mongo.getInstance();
-  let users = await db.collection<IUser>("users").find().toArray();
+  let users = await ReturnError<IUser[]>(
+    db.collection<IUser>("users").find().toArray()
+  );
+  if (users.error !== undefined) {
+    return NextResponse.json(
+      { message: (users.error as MongooseError).message },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json(
-    users.map((val: IUser) => ({
+    users.value.map((val: IUser) => ({
       id: val._id?.toString(),
       username: val.username,
       score: val.score,
     })),
-    {
-      status: 200,
-    }
+    { status: 200 }
   );
 }
 
@@ -24,24 +31,26 @@ export async function PATCH(req: NextRequest) {
   if (session === undefined)
     return NextResponse.json({ message: "login required" }, { status: 401 });
 
-  let body: { username: string };
-  try {
-    body = await req.json();
-  } catch (err) {
+  let body = await ReturnError<{ username: string }>(req.json());
+  if (body.error !== undefined) {
     return NextResponse.json({ message: "empty body" }, { status: 400 });
   }
 
-  if (body.username === undefined)
+  if (body.value.username === undefined)
     return NextResponse.json({ message: "invalid body" }, { status: 400 });
 
   let userId = new mongoose.Types.ObjectId(session.value);
 
-  try {
-    const db = await Mongo.getInstance();
-    await db
+  const db = await Mongo.getInstance();
+  let { error: err } = await ReturnError(
+    db
       .collection<IUser>("users")
-      .findOneAndUpdate({ _id: userId }, { $set: { username: body.username } });
-  } catch (err) {
+      .findOneAndUpdate(
+        { _id: userId },
+        { $set: { username: body.value.username } }
+      )
+  );
+  if (err !== undefined) {
     console.error(err);
     return NextResponse.json(
       { message: (err as MongooseError).message },

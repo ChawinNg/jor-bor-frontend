@@ -6,3 +6,8 @@ export interface IUser {
   password: string;
   score: number;
 }
+
+export interface IUserCredential {
+  username: string;
+  password: string;
+}
