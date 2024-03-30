@@ -5,7 +5,12 @@ import bcrypt from "bcrypt";
 import { Mongo } from "@/db/db";
 
 export async function POST(req: NextRequest) {
-  let body = (await req.json()) as IUser;
+  let body: IUser;
+  try {
+    body = (await req.json()) as IUser;
+  } catch (err) {
+    return NextResponse.json({ message: "empty body" }, { status: 400 });
+  }
 
   if (body.username === undefined || body.password === undefined) {
     return NextResponse.json(
@@ -24,8 +29,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const db = await Mongo.getInstance();
-    let respose = await db.collection("users").insertOne(user);
-    console.log(respose);
+    await db.collection("users").insertOne(user);
     return NextResponse.json({ message: "user created" }, { status: 201 });
   } catch (err) {
     console.error(err);
