@@ -19,6 +19,7 @@ const config: Config = {
         "ui-text-light": "#999999",
         "ui-input": "#121212",
         "ui-input-border": "#1D283A",
+        "ui-accent": "#252645",
       },
     },
   },
