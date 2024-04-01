@@ -23,7 +23,7 @@ export default function LoginForm() {
           setPassword(e.target.value);
         }}
       ></input>
-      <Link href="/login" className="w-full flex justify-center">
+      <Link href="/menu" className="w-full flex justify-center">
         <button className="w-1/2 bg-ui-red py-3 rounded-xl font-bold">
           Play
         </button>
