@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function FriendCard({
   status,
   name,
@@ -14,9 +16,11 @@ export default function FriendCard({
       <div className="px-12">{status}</div>
       <div className="w-full text-left">{name}</div>
       <div className="px-3">
-        <button className="border-white border-2 py-2 rounded-xl text-base font-normal px-8">
-          Chat
-        </button>
+        <Link href={`/chats/${name}`} className="w-full flex ">
+          <button className="border-white border-2 py-2 rounded-xl text-base font-normal px-8">
+            Chat
+          </button>
+        </Link>
       </div>
     </div>
   );
