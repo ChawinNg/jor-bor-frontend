@@ -17,7 +17,7 @@ export default function FriendList() {
   return (
     <div className="flex flex-col w-1/3 h-[48%] overflow-auto gap-y-5">
       {players.map((item, index) => (
-        <FriendCard status={item[2]} name={item[0]} />
+        <FriendCard status={item[2]} name={item[0]} key={index} />
       ))}
     </div>
   );
