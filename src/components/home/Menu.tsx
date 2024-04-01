@@ -12,7 +12,7 @@ export default function Menu() {
       <Link href="/leaderboard" className="w-full flex ">
         <button className="text-left hover:text-ui-red">Leaderboard</button>
       </Link>
-      <Link href="/friend" className="w-full flex ">
+      <Link href="/friends" className="w-full flex ">
         <button className="text-left hover:text-ui-red">Friend</button>
       </Link>
       <Link href="/chat" className="w-full flex ">
