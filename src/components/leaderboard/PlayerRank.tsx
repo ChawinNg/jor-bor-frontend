@@ -15,7 +15,7 @@ export default function PlayerRank() {
     ["Masato", "993", "0"],
   ];
   return (
-    <div className="flex flex-col w-1/3 h-[45%] overflow-auto gap-y-5">
+    <div className="flex flex-col w-1/3 h-[45%] overflow-auto gap-y-5 px-4">
       {players.map((item, index) => (
         <PlayerCard
           rank={index + 1}

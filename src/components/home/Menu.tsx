@@ -15,9 +15,9 @@ export default function Menu() {
       <Link href="/friends" className="w-full flex ">
         <button className="text-left hover:text-ui-red">Friend</button>
       </Link>
-      <Link href="/chat" className="w-full flex ">
+      {/* <Link href="/chat" className="w-full flex ">
         <button className="text-left hover:text-ui-red">Chat</button>
-      </Link>
+      </Link> */}
     </div>
   );
 }

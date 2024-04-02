@@ -15,7 +15,7 @@ export default function FriendList() {
     ["Masato", "993", "Offline"],
   ];
   return (
-    <div className="flex flex-col w-1/3 h-[48%] overflow-auto gap-y-5">
+    <div className="flex flex-col w-1/3 h-[48%] overflow-auto gap-y-5 px-4">
       {players.map((item, index) => (
         <FriendCard status={item[2]} name={item[0]} key={index} />
       ))}
