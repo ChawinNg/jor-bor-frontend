@@ -6,7 +6,7 @@ export default function Menu() {
       <Link href="/lobby-join" className="w-full flex ">
         <button className="hover:text-ui-red">Join Lobby</button>
       </Link>
-      <Link href="/lobby-create" className="w-full flex ">
+      <Link href="/create-lobby" className="w-full flex ">
         <button className="text-left hover:text-ui-red">Create Lobby</button>
       </Link>
       <Link href="/leaderboard" className="w-full flex ">
