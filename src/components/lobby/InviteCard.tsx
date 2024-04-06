@@ -7,7 +7,7 @@ export default function InviteCard({ name }: { name: string }) {
         type="checkbox"
         className="size-8 appearance-auto border-white border-2 rounded-md checked:bg-ui-accent focus:text-white indeterminate:bg-ui-accent checkmark-white"
       ></input>
-      <div className="text-center ">{name}</div>
+      <div className="text-center">{name}</div>
     </div>
   );
 }
