@@ -7,7 +7,7 @@ interface SearchBarProps {
   searchAfterMS: number;
 }
 
-export default function FriendSearchBar(props: SearchBarProps) {
+export default function LobbySearchBar(props: SearchBarProps) {
   const { setSearchValue, searchAfterMS } = props;
 
   const [value, setValue] = useState<string>("");
@@ -44,13 +44,13 @@ export default function FriendSearchBar(props: SearchBarProps) {
       <input
         type="text"
         className="w-full bg-ui-input placeholder:text-ui-text-light py-3 rounded-xl font-normal px-4 text-center"
-        placeholder="Enter friend username"
+        placeholder="Enter lobby code"
         onChange={onChangeHandler}
         value={value}
         onKeyDown={onKeyDownHandler}
       ></input>
       <button className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4">
-        Add
+        Join
       </button>
     </div>
   );

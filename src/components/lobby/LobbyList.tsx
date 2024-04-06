@@ -1,3 +1,4 @@
+import Link from "next/link";
 import LobbyCard from "./LobbyCard";
 
 export default function LobbyList() {
@@ -14,9 +15,11 @@ export default function LobbyList() {
     ["Masato", "993", "7"],
   ];
   return (
-    <div className="flex flex-col w-1/3 h-[48%] overflow-auto gap-y-5 px-4">
+    <div className="flex flex-col w-1/3 h-1/2 overflow-auto gap-y-5 px-4">
       {players.map((item, index) => (
-        <LobbyCard name={item[0]} key={index} players={item[2]} />
+        <Link href={"/lobbies/" + item[0]} key={index}>
+          <LobbyCard name={item[0]} players={item[2]} />
+        </Link>
       ))}
     </div>
   );
