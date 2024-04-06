@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import InviteList from "./InviteList";
+import LobbyChat from "./LobbyChat";
 
 export default function LobbyMenu() {
   const [menu, setMenu] = useState<boolean>(false);
@@ -30,7 +31,8 @@ export default function LobbyMenu() {
           Chat
         </button>
       </div>
-      <InviteList code={"123456"} />
+      {!menu && <InviteList code={"123456"} />}
+      {menu && <LobbyChat />}
       <button
         className={`py-3 w-full rounded-xl ${
           isReady ? "bg-ui-red" : "bg-white text-black"
