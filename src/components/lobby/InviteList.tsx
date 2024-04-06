@@ -18,11 +18,10 @@ export default function InviteList({ code }: { code: string }) {
       <div className="font-semibold text-3xl">Lobby Code: {code}</div>
       <div className="flex flex-col w-full h-full  overflow-auto gap-y-5 px-4">
         {players.map((item, index) => (
-          <InviteCard name={item[0]} />
+          <InviteCard name={item[0]} key={item[0]} />
         ))}
       </div>
       <div className="font-semibold text-3xl">6/8 Players</div>
-      
     </div>
   );
 }
