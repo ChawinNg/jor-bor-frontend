@@ -29,3 +29,9 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; /* Color of the scrollbar handle when hovered */
 }
+
+.checkmark:after {
+  border-color: white;
+  border-right-color: #3b82f6; /* Tailwind blue-500 */
+  border-bottom-color: #3b82f6; /* Tailwind blue-500 */
+}

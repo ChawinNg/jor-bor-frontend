@@ -22,6 +22,7 @@ const config: Config = {
         "ui-input": "#121212",
         "ui-input-border": "#1D283A",
         "ui-accent": "#252645",
+        "ui-primary-hover": "#950741",
       },
     },
   },

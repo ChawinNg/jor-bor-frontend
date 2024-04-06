@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Menu() {
   return (
     <div className="flex flex-col gap-y-5 justify-start w-full text-4xl font-semibold ">
-      <Link href="/lobby-join" className="w-full flex ">
+      <Link href="/lobbies" className="w-full flex ">
         <button className="hover:text-ui-red">Join Lobby</button>
       </Link>
       <Link href="/create-lobby" className="w-full flex ">
