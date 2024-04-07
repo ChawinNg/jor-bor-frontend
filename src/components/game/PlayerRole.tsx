@@ -1,7 +1,9 @@
 "use client";
+import { useTheme } from "@/contexts/ThemeProvider";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 export default function PlayerRole({ role }: { role: string }) {
+  const { theme, setTheme } = useTheme();
   const [img, setImg] = useState<string>("");
   const [info, setInfo] = useState<string>("");
 
@@ -32,7 +34,13 @@ export default function PlayerRole({ role }: { role: string }) {
     }
   }
   return (
-    <div className="flex flex-col h-3/4 bg-black gap-x-3 gap-y-4  items-center p-4 rounded-xl">
+    <div
+      className={`flex flex-col h-3/4 bg-black gap-x-3 gap-y-4  items-center p-4 rounded-xl ${
+        theme == "night"
+          ? "bg-black"
+          : "bg-white text-black border-1 border-ui-red"
+      }`}
+    >
       <div className="w-full text-2xl font-bold text-center">{role}</div>
       <span className="w-full border-t border-ui-text-light"></span>
       <div className="flex flex-col">
