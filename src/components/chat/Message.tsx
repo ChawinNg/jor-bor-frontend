@@ -1,8 +1,11 @@
+import { useTheme } from "@/contexts/ThemeProvider";
+
 export default function Message({
   message,
 }: {
   message: (string | boolean)[];
 }) {
+  const { theme, setTheme } = useTheme();
   return (
     <div
       className={`flex text-base ${
@@ -30,7 +33,7 @@ export default function Message({
                 message[1]
                   ? "bg-ui-red rounded-tr-none"
                   : "bg-ui-accent rounded-tl-none"
-              }`}
+              } ${theme == "night" ? "text-white" : "text-white"}`}
             >
               {message[0]}
             </div>
