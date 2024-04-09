@@ -1,4 +1,4 @@
-import PlayerScore from "@/models/PlayerData";
+import PlayerScore from "@/models/User";
 import PlayerCard from "./PlayerCard";
 
 export default function PlayerRank() {

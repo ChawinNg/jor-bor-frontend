@@ -1,6 +1,7 @@
 "use client";
 import FriendList from "@/components/chat/FriendList";
 import FriendSearchBar from "@/components/chat/FriendSearchBar";
+import { useAuth } from "@/contexts/AuthProvider";
 import { useState } from "react";
 
 export default function FriendsPage() {
