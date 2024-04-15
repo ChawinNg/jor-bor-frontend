@@ -2,6 +2,8 @@
 import { useState } from "react";
 import InviteList from "./InviteList";
 import LobbyChat from "./LobbyChat";
+import { lobbyReady, lobbyUnready } from "@/services/lobbyStatus";
+import { leaveLobby } from "@/services/manageLobby";
 
 export default function LobbyMenu() {
   const [menu, setMenu] = useState<boolean>(false);
@@ -39,11 +41,15 @@ export default function LobbyMenu() {
         }`}
         onClick={() => {
           setReady(!isReady);
+          isReady ? lobbyReady() : lobbyUnready();
         }}
       >
         {isReady ? "Ready" : "Not Ready"}
       </button>
-      <button className="py-3 w-full rounded-xl border-1 border-white">
+      <button
+        className="py-3 w-full rounded-xl border-1 border-white"
+        onClick={leaveLobby}
+      >
         Leave Lobby
       </button>
     </div>

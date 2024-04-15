@@ -1,24 +1,31 @@
 import Link from "next/link";
 import LobbyCard from "./LobbyCard";
+import getAllLobbies from "@/services/getAllLobbies";
+import { useEffect, useState } from "react";
+import { set } from "mongoose";
+import { joinLobby } from "@/services/manageLobby";
 
 export default function LobbyList() {
-  const players = [
-    ["Masato", "999", "1"],
-    ["Masato", "998", "5"],
-    ["Masato", "997", "8"],
-    ["Masato", "996", "2"],
-    ["Masato", "995", "6"],
-    ["Masato", "994", "7"],
-    ["Masato", "993", "6"],
-    ["Masato", "993", "1"],
-    ["Masato", "993", "2"],
-    ["Masato", "993", "7"],
-  ];
+  const [lobbyList, setLobbyList] = useState<string[][]>();
+
+  async function fetchLobbies() {
+    const data = await getAllLobbies();
+    console.log(data);
+    let lobby: string[][] = [];
+    data.map((item: any) => {
+      lobby.push([item.name, item.id, item.players.length]);
+    });
+    setLobbyList(lobby);
+  }
+  useEffect(() => {
+    fetchLobbies();
+  }, []);
+
   return (
     <div className="flex flex-col w-1/3 h-1/2 overflow-auto gap-y-5 px-4">
-      {players.map((item, index) => (
+      {lobbyList?.map((item, index) => (
         <Link href={"/lobbies/" + item[0]} key={index}>
-          <LobbyCard name={item[0]} players={item[2]} />
+          <LobbyCard name={item[0]} players={item[2]} lobbyId={item[1]} />
         </Link>
       ))}
     </div>
