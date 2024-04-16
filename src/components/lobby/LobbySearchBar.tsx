@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Socket, io } from "socket.io-client";
 
 interface SearchBarProps {
   setSearchValue: Dispatch<SetStateAction<string>>;
@@ -39,6 +40,13 @@ export default function LobbySearchBar(props: SearchBarProps) {
     }
   };
 
+  const connect = () => {
+    const socket = io("http://localhost:8000");
+
+    socket.emit("custom_event", { name: "masatokung", age: "21" })
+    console.log("emit successful")
+  }
+
   return (
     <div className="flex flex-row w-1/3 gap-x-8">
       <input
@@ -49,7 +57,12 @@ export default function LobbySearchBar(props: SearchBarProps) {
         value={value}
         onKeyDown={onKeyDownHandler}
       ></input>
-      <button className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4">
+      <button 
+        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
+        onClick={() => {
+          connect();
+        }}
+      >
         Join
       </button>
     </div>
