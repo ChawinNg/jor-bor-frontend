@@ -1,4 +1,4 @@
-import PlayerScore from "@/models/PlayerData";
+import PlayerScore from "@/models/User";
 import FriendCard from "./FriendCard";
 import { useEffect, useState } from "react";
 import { getAllFriends } from "@/services/getFriends";
