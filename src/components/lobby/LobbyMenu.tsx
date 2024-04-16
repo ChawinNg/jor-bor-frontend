@@ -48,7 +48,10 @@ export default function LobbyMenu() {
       </button>
       <button
         className="py-3 w-full rounded-xl border-1 border-white"
-        onClick={leaveLobby}
+        onClick={() => {
+          leaveLobby();
+          window.location.href = "/lobbies";
+        }}
       >
         Leave Lobby
       </button>

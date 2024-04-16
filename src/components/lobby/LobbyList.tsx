@@ -12,7 +12,7 @@ export default function LobbyList() {
     const data = await getAllLobbies();
     console.log(data);
     let lobby: string[][] = [];
-    data.map((item: any) => {
+    data.map((item: any, index: any) => {
       lobby.push([item.name, item.id, item.players.length]);
     });
     setLobbyList(lobby);

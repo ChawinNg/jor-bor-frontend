@@ -1,5 +1,6 @@
 "use client";
 
+import { joinLobby } from "@/services/manageLobby";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface SearchBarProps {
@@ -49,7 +50,13 @@ export default function LobbySearchBar(props: SearchBarProps) {
         value={value}
         onKeyDown={onKeyDownHandler}
       ></input>
-      <button className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4">
+      <button
+        onClick={() => {
+          joinLobby(value);
+          window.location.href = `/lobbies/${value}`;
+        }}
+        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
+      >
         Join
       </button>
     </div>

@@ -8,7 +8,7 @@ export default async function getAllLobbies() {
     if (!response.ok) {
       throw new Error("Failed to fetch all lobbies");
     }
-    return response.json();
+    return await response.json();
   } catch (error) {
     console.error(error);
   }

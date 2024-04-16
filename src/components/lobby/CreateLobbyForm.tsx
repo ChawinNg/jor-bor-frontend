@@ -1,15 +1,30 @@
 "use client";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import React from "react";
 import { Slider, SliderValue, Switch } from "@nextui-org/react";
+import { createLobby } from "@/services/manageLobby";
+import { set } from "mongoose";
 
 export default function CreateLobbyForm() {
   const [name, setName] = useState<string>();
   const [code, setCode] = useState<string>();
   const [isPublic, setPublic] = useState<boolean>(true);
   const [players, setPlayers] = useState<SliderValue>();
+
+  async function create(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(name, players, isPublic, code);
+    const data = await createLobby(name, players as number, isPublic);
+    console.log(data);
+    window.location.href = `/lobby/${data.id}`;
+  }
   return (
-    <form className="flex flex-col w-1/4 justify-center items-center gap-y-20">
+    <form
+      onSubmit={(e) => {
+        create(e);
+      }}
+      className="flex flex-col w-1/4 justify-center items-center gap-y-20"
+    >
       <div className="flex flex-col gap-y-7 justify-center items-center w-full">
         <div className="flex w-full flex-row justify-between items-center">
           <label className="text-2xl font-semibold">Lobby Name</label>
@@ -71,9 +86,9 @@ export default function CreateLobbyForm() {
           Cancle
         </button>
         <button
-          onClick={(e) => {
-            e.preventDefault();
-          }}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          // }}
           className="bg-ui-red py-3 w-1/3 rounded-xl"
         >
           Create
