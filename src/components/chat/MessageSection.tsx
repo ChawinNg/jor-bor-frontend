@@ -30,7 +30,7 @@ export default function MessageSection() {
     ["Hello", false, "Shinobu", "7:06 pm"],
   ];
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<any>([]);
 
   useEffect(() => {
     // Create a socket connection
@@ -40,7 +40,7 @@ export default function MessageSection() {
 
     // Listen for incoming messages
     socket.on("message", (message: any) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages((prevMessages: any) => [...prevMessages, message]);
     });
 
     // Clean up the socket connection on unmount
