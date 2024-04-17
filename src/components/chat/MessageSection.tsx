@@ -1,36 +1,12 @@
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import Message from "./Message";
 import io from "socket.io-client";
+import { Messages } from "@/models/Message";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function MessageSection() {
-  const mess = [
-    ["Hello Im ik Hello Im ik Hello Im ik Hello Im ik", true, "Masato"],
-    ["Hello", false, "Seiichi", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello", false, "Shinobu", "7:06 pm"],
-    ["Hello", false, "Seiichi", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello", false, "Shinobu", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello", false, "Seiichi", "7:06 pm"],
-    ["Hello", false, "Shinobu", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello", false, "Seiichi", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello", false, "Seiichi", "7:06 pm"],
-    ["Hello", false, "Shinobu", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello", false, "Shinobu", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello Im ik", true, "Masato", "7:06 pm"],
-    ["Hello", false, "Seiichi", "7:06 pm"],
-    ["Hello", false, "Shinobu", "7:06 pm"],
-  ];
-
   const [messages, setMessages] = useState<any>([]);
+  const { user, setUser } = useAuth();
 
   useEffect(() => {
     // Create a socket connection
@@ -39,20 +15,27 @@ export default function MessageSection() {
     });
 
     // Listen for incoming messages
-    socket.on("message", (message: any) => {
-      setMessages((prevMessages: any) => [...prevMessages, message]);
+    socket.on("private message", (message: any) => {
+      if (user) {
+        if (
+          message.to === user.data.username ||
+          message.user === user.data.username
+        ) {
+          setMessages((prevMessages: any) => [...prevMessages, message]);
+        }
+      }
     });
 
     // Clean up the socket connection on unmount
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [user]);
 
   return (
     <div className="flex h-full flex-col overflow-y-auto px-6">
       <div className="flex flex-col gap-4">
-        {messages.map((item, index) => (
+        {messages.map((item: Messages, index: Key | null | undefined) => (
           <Message message={item} key={index} />
         ))}
       </div>

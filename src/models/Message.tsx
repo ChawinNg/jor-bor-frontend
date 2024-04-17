@@ -1,7 +1,5 @@
-import { IUser } from "./User";
-
 export interface Messages {
-  user: IUser;
+  user: string;
   message: string;
   time: Date;
 }
