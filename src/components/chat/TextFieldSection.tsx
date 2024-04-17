@@ -1,8 +1,37 @@
 import { useTheme } from "@/contexts/ThemeProvider";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import SocketService from "@/services/sockets/socket";
+import { io } from "socket.io-client";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function TextFieldSection() {
   const { theme, setTheme } = useTheme();
+  const [message, setMessage] = useState<string>("");
+  const [socket, setSocket] = useState();
+  const { user, setUser } = useAuth();
+
+  useEffect(() => {
+    const socket = io("ws://localhost:8000", {
+      withCredentials: true,
+    });
+    setSocket(socket);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const sendMessage = () => {
+    if (socket) {
+      socket.emit("message", {
+        user: user.data.username,
+        message: message,
+        time: new Date(),
+      });
+      setMessage("");
+      console.log("test");
+    }
+  };
   return (
     <div className="flex flex-row gap-x-4 px-4 py-2 ">
       <input
@@ -12,6 +41,10 @@ export default function TextFieldSection() {
         }`}
         placeholder="Type message here..."
         autoFocus
+        value={message}
+        onChange={(e) => {
+          setMessage(e.target.value);
+        }}
       />
 
       <button className="hover:bg-black rounded-xl px-2">
@@ -25,6 +58,9 @@ export default function TextFieldSection() {
           width={40}
           height={40}
           className="cursor-pointer"
+          onClick={() => {
+            sendMessage();
+          }}
         />
       </button>
     </div>
