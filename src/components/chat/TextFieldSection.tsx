@@ -5,10 +5,10 @@ import SocketService from "@/services/sockets/socket";
 import { io } from "socket.io-client";
 import { useAuth } from "@/contexts/AuthProvider";
 
-export default function TextFieldSection() {
+export default function TextFieldSection({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
   const [message, setMessage] = useState<string>("");
-  const [socket, setSocket] = useState();
+  const [socket, setSocket] = useState<any>();
   const { user, setUser } = useAuth();
 
   useEffect(() => {
@@ -23,14 +23,14 @@ export default function TextFieldSection() {
 
   const sendMessage = () => {
     if (socket) {
-      socket.emit("message", {
+      socket.emit("private message", {
         user: user.data.username,
+        to: id,
         message: message,
-        time: new Date(),
+        time: new Date(Date.now()),
       });
-      setMessage("");
-      console.log("test");
     }
+    setMessage("");
   };
   return (
     <div className="flex flex-row gap-x-4 px-4 py-2 ">

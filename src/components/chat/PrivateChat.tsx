@@ -8,7 +8,7 @@ export default function PrivateChat({ id }: { id: string }) {
       <span className="w-full border-t border-ui-text-light"></span>
       <MessageSection />
       <span className="w-full border-t border-ui-text-light"></span>
-      <TextFieldSection />
+      <TextFieldSection id={id} />
     </div>
   );
 }

@@ -6,6 +6,9 @@ import { useEffect } from "react";
 export default function Message({ message }: { message: Messages }) {
   const { theme, setTheme } = useTheme();
   const { user, setUser } = useAuth();
+  const sentAt = new Date(message.time);
+  const hour = String(sentAt.getHours()).padStart(2, "0");
+  const minute = String(sentAt.getMinutes()).padStart(2, "0");
   useEffect(() => {
     console.log(message);
   }, []);
@@ -43,7 +46,7 @@ export default function Message({ message }: { message: Messages }) {
               {message.message}
             </div>
             <div className="text-sm text-ui-text-light">
-              {message.time.getHours}
+              {`${hour}:${minute}`}
             </div>
           </div>
         </div>
