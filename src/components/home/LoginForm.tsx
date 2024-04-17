@@ -19,7 +19,7 @@ export default function LoginForm() {
     const data = await userLogin(name, password)
     await connectSocket();
     console.log(data)
-    // window.location.href = "http://localhost:3000/menu"
+    window.location.href = "http://localhost:3000/menu"
   }
   return (
     <form onSubmit={(e) => { login(e) }} className="flex flex-col w-full justify-center items-center gap-y-4 ">

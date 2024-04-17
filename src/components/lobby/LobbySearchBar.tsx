@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Socket, io } from "socket.io-client";
+import SocketService from '@/services/sockets/socket';
 
 interface SearchBarProps {
   setSearchValue: Dispatch<SetStateAction<string>>;
@@ -41,10 +41,7 @@ export default function LobbySearchBar(props: SearchBarProps) {
   };
 
   const connect = () => {
-    const socket = io("http://localhost:8000");
-
-    socket.emit("custom_event", { name: "masatokung", age: "21" })
-    console.log("emit successful")
+    const socket = SocketService.joinLobby();
   }
 
   return (

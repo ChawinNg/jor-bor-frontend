@@ -5,7 +5,9 @@ class SocketService {
 
     public connect(url: string) {
         return new Promise((rs, rj) => {
-            this.socket = io(url)
+            this.socket = io(url, {
+                withCredentials: true,
+            })
 
             if (!this.socket) {return rj();}
 
@@ -19,6 +21,13 @@ class SocketService {
                 rj(err);
             })
         })
+    }
+
+    public joinLobby() {
+        if (!this.socket) {return}
+
+        this.socket.emit("custom_event", { name: "masatokung", age: "21" })
+        console.log("emit successful")
     }
 }
 
