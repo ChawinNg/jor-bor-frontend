@@ -1,3 +1,4 @@
+"use client";
 import PrivateChat from "@/components/chat/PrivateChat";
 import PrivateChatList from "@/components/chat/PrivateChatList";
 

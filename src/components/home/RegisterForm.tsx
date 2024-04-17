@@ -9,13 +9,18 @@ export default function RegisterForm() {
   const [password, setPassword] = useState<string>();
 
   async function register(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const data = await userRegister(name, password)
-    console.log(data)
-    window.location.href = "http://localhost:3000/login"
+    event.preventDefault();
+    const data = await userRegister(name, password);
+    console.log(data);
+    window.location.href = "http://localhost:3000/login";
   }
   return (
-    <form onSubmit={(e) => { register(e) }} className="flex flex-col w-full justify-center items-center gap-y-4 ">
+    <form
+      onSubmit={(e) => {
+        register(e);
+      }}
+      className="flex flex-col w-full justify-center items-center gap-y-4 "
+    >
       <input
         type="text"
         className="w-1/2 bg-ui-input placeholder:text-ui-text-light py-3 rounded-xl font-normal px-4"
