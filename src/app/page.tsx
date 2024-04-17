@@ -1,3 +1,4 @@
+'use client'
 import MenuSection from "@/components/home/MenuSection";
 import Link from "next/link";
 

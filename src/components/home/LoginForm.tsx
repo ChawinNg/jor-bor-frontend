@@ -4,14 +4,20 @@ import userLogin from "@/services/userLogin";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
+import SocketService from "@/services/sockets/socket";
 
 export default function LoginForm() {
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
 
+  const connectSocket = async () => {
+    const socket = await SocketService.connect("ws://localhost:8000").catch((err) => {console.log("Error: ", err)})
+  }
+
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const data = await userLogin(name, password)
+    await connectSocket();
     console.log(data)
     window.location.href = "http://localhost:3000/menu"
   }
