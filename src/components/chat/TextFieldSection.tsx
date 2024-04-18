@@ -11,6 +11,10 @@ export default function TextFieldSection({ id }: { id: string }) {
   const [socket, setSocket] = useState<any>();
   const { user, setUser } = useAuth();
 
+  const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") sendMessage();
+  };
+
   useEffect(() => {
     const socket = io("ws://localhost:8000", {
       withCredentials: true,
@@ -22,16 +26,19 @@ export default function TextFieldSection({ id }: { id: string }) {
   }, []);
 
   const sendMessage = () => {
-    if (socket) {
-      socket.emit("private message", {
-        user: user.data.username,
-        to: id,
-        message: message,
-        time: new Date(Date.now()),
-      });
+    if (message.trim().length > 0) {
+      if (socket) {
+        socket.emit("private message", {
+          user: user.data.username,
+          to: id,
+          message: message,
+          time: new Date(Date.now()),
+        });
+      }
     }
     setMessage("");
   };
+
   return (
     <div className="flex flex-row gap-x-4 px-4 py-2 ">
       <input
@@ -45,6 +52,7 @@ export default function TextFieldSection({ id }: { id: string }) {
         onChange={(e) => {
           setMessage(e.target.value);
         }}
+        onKeyDown={onKeyDownHandler}
       />
 
       <button className="hover:bg-black rounded-xl px-2">

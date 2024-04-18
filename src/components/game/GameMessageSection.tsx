@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Message from "../chat/Message";
 import { useAuth } from "@/contexts/AuthProvider";
 import { io } from "socket.io-client";
@@ -6,6 +6,11 @@ import { io } from "socket.io-client";
 export default function GameMessageSection({ id }: { id: string }) {
   const [messages, setMessages] = useState<any>([]);
   const { user, setUser } = useAuth();
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     // Create a socket connection
@@ -23,6 +28,10 @@ export default function GameMessageSection({ id }: { id: string }) {
       socket.disconnect();
     };
   }, [user]);
+
+  useEffect(() => {
+    scrollToBottom();
+  });
   return (
     <div className="flex h-full flex-col overflow-y-auto px-6">
       <div className="flex flex-col gap-4">
@@ -30,6 +39,7 @@ export default function GameMessageSection({ id }: { id: string }) {
           <Message message={item} key={index} />
         ))}
       </div>
+      <div ref={bottomRef} />
     </div>
   );
 }
