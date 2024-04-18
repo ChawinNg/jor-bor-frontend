@@ -5,7 +5,7 @@ import LobbyChat from "./LobbyChat";
 import { lobbyReady, lobbyUnready } from "@/services/lobbyStatus";
 import { leaveLobby } from "@/services/manageLobby";
 
-export default function LobbyMenu() {
+export default function LobbyMenu({ id }: { id: string }) {
   const [menu, setMenu] = useState<boolean>(false);
   const [isReady, setReady] = useState<boolean>(false);
 
@@ -34,7 +34,7 @@ export default function LobbyMenu() {
         </button>
       </div>
       {!menu && <InviteList code={"123456"} />}
-      {menu && <LobbyChat />}
+      {menu && <LobbyChat id={id} />}
       <button
         className={`py-3 w-full rounded-xl ${
           isReady ? "bg-ui-red" : "bg-white text-black"

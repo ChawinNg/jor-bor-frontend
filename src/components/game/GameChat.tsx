@@ -1,8 +1,8 @@
 import { useTheme } from "@/contexts/ThemeProvider";
-import TextFieldSection from "../chat/TextFieldSection";
 import GameMessageSection from "./GameMessageSection";
+import GameTextFieldSection from "./GameTextFieldSection";
 
-export default function GameChat() {
+export default function GameChat({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
   return (
     <div
@@ -14,9 +14,9 @@ export default function GameChat() {
     >
       <div className="w-full text-2xl font-bold text-center">Masato</div>
       <span className="w-full border-t border-ui-text-light"></span>
-      <GameMessageSection />
+      <GameMessageSection id={id} />
       <span className="w-full border-t border-ui-text-light"></span>
-      <TextFieldSection />
+      <GameTextFieldSection id={id} />
     </div>
   );
 }

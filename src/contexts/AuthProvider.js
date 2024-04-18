@@ -16,17 +16,18 @@ export const AuthProvider = ({ children }) => {
             credentials: "include",
           }
         );
-        console.log(response)
         if (!response.ok) {
           throw new Error("Failed to fetch current user");
         }
-        setUser(response.data)
+        const data = await response.json();
+        console.log(data);
+        setUser(data);
       } catch (error) {
         console.error(error);
       }
     }
     getCurrentUser();
-  })
+  }, []);
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {children}

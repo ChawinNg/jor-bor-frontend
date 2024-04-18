@@ -2,6 +2,7 @@
 
 import { joinLobby } from "@/services/manageLobby";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import SocketService from "@/services/sockets/socket";
 
 interface SearchBarProps {
   setSearchValue: Dispatch<SetStateAction<string>>;
@@ -40,6 +41,10 @@ export default function LobbySearchBar(props: SearchBarProps) {
     }
   };
 
+  const connect = () => {
+    const socket = SocketService.joinLobby();
+  };
+
   return (
     <div className="flex flex-row w-1/3 gap-x-8">
       <input
@@ -52,6 +57,7 @@ export default function LobbySearchBar(props: SearchBarProps) {
       ></input>
       <button
         onClick={() => {
+          connect();
           joinLobby(value);
           window.location.href = `/lobbies/${value}`;
         }}

@@ -5,7 +5,7 @@ import PlayerRole from "./PlayerRole";
 import GhostChat from "./ghost/GhostChat";
 import { useTheme } from "@/contexts/ThemeProvider";
 
-export default function GameMenu() {
+export default function GameMenu({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
   const [menu, setMenu] = useState<string>("role");
   const [isReady, setReady] = useState<boolean>(false);
@@ -70,8 +70,8 @@ export default function GameMenu() {
         )}
       </div>
       {menu == "role" && <PlayerRole role={"seer"} />}
-      {menu == "chat" && <GameChat />}
-      {menu == "ghost" && <GhostChat />}
+      {menu == "chat" && <GameChat id={id} />}
+      {menu == "ghost" && <GhostChat id={id} />}
     </div>
   );
 }
