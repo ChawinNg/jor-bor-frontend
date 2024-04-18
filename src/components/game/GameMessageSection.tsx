@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { Key, useEffect, useRef, useState } from "react";
 import Message from "../chat/Message";
 import { useAuth } from "@/contexts/AuthProvider";
 import { io } from "socket.io-client";
+import { useSocket } from "@/contexts/SocketProvider";
+import { Messages } from "@/models/Message";
 
 export default function GameMessageSection({ id }: { id: string }) {
   const [messages, setMessages] = useState<any>([]);
   const { user, setUser } = useAuth();
+  const { socket, setSocket } = useSocket();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -14,9 +17,9 @@ export default function GameMessageSection({ id }: { id: string }) {
 
   useEffect(() => {
     // Create a socket connection
-    const socket = io("ws://localhost:8000", {
-      withCredentials: true,
-    });
+    // const socket = io("ws://localhost:8000", {
+    //   withCredentials: true,
+    // });
     socket.emit("joinGame", id);
     // Listen for incoming messages
     socket.on("game message", (message: any) => {
@@ -24,10 +27,10 @@ export default function GameMessageSection({ id }: { id: string }) {
     });
 
     // Clean up the socket connection on unmount
-    return () => {
-      socket.disconnect();
-    };
-  }, [user]);
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, [user, socket]);
 
   useEffect(() => {
     scrollToBottom();
@@ -35,7 +38,7 @@ export default function GameMessageSection({ id }: { id: string }) {
   return (
     <div className="flex h-full flex-col overflow-y-auto px-6">
       <div className="flex flex-col gap-4">
-        {messages.map((item, index) => (
+        {messages.map((item: Messages, index: Key | null | undefined) => (
           <Message message={item} key={index} />
         ))}
       </div>
