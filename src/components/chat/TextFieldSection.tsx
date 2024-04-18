@@ -5,25 +5,30 @@ import SocketService from "@/services/sockets/socket";
 import { io } from "socket.io-client";
 import { useAuth } from "@/contexts/AuthProvider";
 
-export default function TextFieldSection({ id }: { id: string }) {
+export default function TextFieldSection({
+  id,
+  socket,
+}: {
+  id: string;
+  socket: any;
+}) {
   const { theme, setTheme } = useTheme();
   const [message, setMessage] = useState<string>("");
-  const [socket, setSocket] = useState<any>();
   const { user, setUser } = useAuth();
 
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") sendMessage();
   };
 
-  useEffect(() => {
-    const socket = io("ws://localhost:8000", {
-      withCredentials: true,
-    });
-    setSocket(socket);
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const socket = io("ws://localhost:8000", {
+  //     withCredentials: true,
+  //   });
+  //   setSocket(socket);
+  //   return () => {
+  //     socket?.disconnect();
+  //   };
+  // }, []);
 
   const sendMessage = () => {
     if (message.trim().length > 0) {

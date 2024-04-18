@@ -4,26 +4,27 @@ import { useEffect, useState } from "react";
 import SocketService from "@/services/sockets/socket";
 import { io } from "socket.io-client";
 import { useAuth } from "@/contexts/AuthProvider";
+import { useSocket } from "@/contexts/SocketProvider";
 
 export default function GhostTextFieldSection({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
   const [message, setMessage] = useState<string>("");
-  const [socket, setSocket] = useState<any>();
+  const { socket, setSocket } = useSocket();
   const { user, setUser } = useAuth();
-  
+
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") sendMessage();
   };
 
   useEffect(() => {
-    const socket = io("ws://localhost:8000", {
-      withCredentials: true,
-    });
-    setSocket(socket);
+    // const socket = io("ws://localhost:8000", {
+    //   withCredentials: true,
+    // });
+    // setSocket(socket);
     socket.emit("joinGhost", id);
-    return () => {
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, []);
 
   const sendMessage = () => {
