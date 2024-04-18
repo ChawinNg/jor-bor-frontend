@@ -5,11 +5,15 @@ import SocketService from "@/services/sockets/socket";
 import { io } from "socket.io-client";
 import { useAuth } from "@/contexts/AuthProvider";
 
-export default function LobbyTextFieldSection({ id }: { id: string }) {
+export default function GameTextFieldSection({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
   const [message, setMessage] = useState<string>("");
   const [socket, setSocket] = useState<any>();
   const { user, setUser } = useAuth();
+
+  const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") sendMessage();
+  };
 
   useEffect(() => {
     const socket = io("ws://localhost:8000", {
@@ -23,16 +27,18 @@ export default function LobbyTextFieldSection({ id }: { id: string }) {
   }, []);
 
   const sendMessage = () => {
-    if (socket) {
-      socket.emit(
-        "game message",
-        {
-          user: user.data.username,
-          message: message,
-          time: new Date(Date.now()),
-        },
-        id
-      );
+    if (message.trim().length > 0) {
+      if (socket) {
+        socket.emit(
+          "game message",
+          {
+            user: user.data.username,
+            message: message,
+            time: new Date(Date.now()),
+          },
+          id
+        );
+      }
     }
     setMessage("");
   };
@@ -49,6 +55,7 @@ export default function LobbyTextFieldSection({ id }: { id: string }) {
         onChange={(e) => {
           setMessage(e.target.value);
         }}
+        onKeyDown={onKeyDownHandler}
       />
 
       <button className="hover:bg-black rounded-xl px-2">

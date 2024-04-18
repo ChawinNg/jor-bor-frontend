@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react";
+import { Key, useEffect, useRef, useState } from "react";
 import Message from "../chat/Message";
 import { useAuth } from "@/contexts/AuthProvider";
 import { io } from "socket.io-client";
+import { Messages } from "@/models/Message";
 
 export default function LobbyMessageSection({ id }: { id: string }) {
   const [messages, setMessages] = useState<any>([]);
   const { user, setUser } = useAuth();
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     // Create a socket connection
@@ -23,13 +29,19 @@ export default function LobbyMessageSection({ id }: { id: string }) {
       socket.disconnect();
     };
   }, [user]);
+
+  useEffect(() => {
+    scrollToBottom();
+  });
+
   return (
     <div className="flex h-full flex-col overflow-y-auto px-6">
       <div className="flex flex-col gap-4">
-        {messages.map((item, index) => (
+        {messages.map((item: Messages, index: Key | null | undefined) => (
           <Message message={item} key={index} />
         ))}
       </div>
+      <div ref={bottomRef} />
     </div>
   );
 }

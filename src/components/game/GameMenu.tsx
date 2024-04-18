@@ -71,7 +71,7 @@ export default function GameMenu({ id }: { id: string }) {
       </div>
       {menu == "role" && <PlayerRole role={"seer"} />}
       {menu == "chat" && <GameChat id={id} />}
-      {menu == "ghost" && <GhostChat />}
+      {menu == "ghost" && <GhostChat id={id} />}
     </div>
   );
 }
