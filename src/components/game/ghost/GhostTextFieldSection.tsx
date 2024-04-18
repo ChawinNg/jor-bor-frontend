@@ -5,7 +5,7 @@ import SocketService from "@/services/sockets/socket";
 import { io } from "socket.io-client";
 import { useAuth } from "@/contexts/AuthProvider";
 
-export default function GameTextFieldSection({ id }: { id: string }) {
+export default function GhostTextFieldSection({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
   const [message, setMessage] = useState<string>("");
   const [socket, setSocket] = useState<any>();
@@ -16,7 +16,7 @@ export default function GameTextFieldSection({ id }: { id: string }) {
       withCredentials: true,
     });
     setSocket(socket);
-    socket.emit("joinGame", id);
+    socket.emit("joinGhost", id);
     return () => {
       socket.disconnect();
     };
@@ -25,7 +25,7 @@ export default function GameTextFieldSection({ id }: { id: string }) {
   const sendMessage = () => {
     if (socket) {
       socket.emit(
-        "game message",
+        "ghost message",
         {
           user: user.data.username,
           message: message,
