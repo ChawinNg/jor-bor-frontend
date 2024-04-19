@@ -1,11 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InviteList from "./InviteList";
 import LobbyChat from "./LobbyChat";
+import getOneLobby from "@/services/lobbies/getOneLobby";
 
 export default function LobbyMenu({ id }: { id: string }) {
   const [menu, setMenu] = useState<boolean>(false);
   const [isReady, setReady] = useState<boolean>(false);
+  const [lobby, setLobby] = useState();
+
+  useEffect(() => {
+    const fetchLobby = async () => {
+      const data = await getOneLobby(id);
+      console.log(data);
+      setLobby(data);
+    }
+    fetchLobby();
+  }, [])
 
   return (
     <div className="flex flex-col w-1/5 justify-center gap-y-5 h-full">

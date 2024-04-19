@@ -1,7 +1,7 @@
 import Link from "next/link";
 import LobbyCard from "./LobbyCard";
 import { useEffect, useState } from "react";
-import getAllLobbies from "@/services/getAllLobbies";
+import getAllLobbies from "@/services/lobbies/getAllLobbies";
 
 export default function LobbyList() {
   // const players = [
