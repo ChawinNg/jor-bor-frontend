@@ -2,12 +2,28 @@
 import { useState } from "react";
 import React from "react";
 import { Slider, SliderValue, Switch } from "@nextui-org/react";
+import createLobby from "@/services/lobbies/createLobby";
+import { useRouter } from "next/navigation";
 
 export default function CreateLobbyForm() {
   const [name, setName] = useState<string>();
   const [code, setCode] = useState<string>();
   const [isPublic, setPublic] = useState<boolean>(true);
   const [players, setPlayers] = useState<SliderValue>();
+
+  const handlePost = async () => {
+    const data = {
+      name,
+      isPublic,
+      code,
+      players,
+    }
+    const response = await createLobby(name, isPublic, code, players);
+    console.log(response)
+  }
+
+  const router = useRouter();
+
   return (
     <form className="flex flex-col w-1/4 justify-center items-center gap-y-20">
       <div className="flex flex-col gap-y-7 justify-center items-center w-full">
@@ -73,6 +89,8 @@ export default function CreateLobbyForm() {
         <button
           onClick={(e) => {
             e.preventDefault();
+            handlePost();
+            router.push('/lobbies');
           }}
           className="bg-ui-red py-3 w-1/3 rounded-xl"
         >
