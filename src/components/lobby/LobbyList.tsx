@@ -2,6 +2,7 @@ import Link from "next/link";
 import LobbyCard from "./LobbyCard";
 import { useEffect, useState } from "react";
 import getAllLobbies from "@/services/lobbies/getAllLobbies";
+import joinLobby from "@/services/lobbies/joinLobby";
 
 export default function LobbyList() {
   // const players = [
@@ -27,6 +28,11 @@ export default function LobbyList() {
     }
     fetchLobbies();
   }, [])
+
+  const handlePost = async (lobbyId: string) => {
+    const response = await joinLobby(lobbyId);
+    console.log(response);
+  }
   
   return (
     <div className="flex flex-col w-1/3 h-1/2 overflow-auto gap-y-5 px-4">
@@ -36,7 +42,13 @@ export default function LobbyList() {
         </Link>
       ))} */}
       {lobbies && lobbies.map((item, index) => (
-        <Link href={`/lobbies/${item.id}`} key={index}>
+        <Link 
+          href={`/lobbies/${item.id}`} 
+          key={index}
+          onClick={() => {
+            handlePost(item.id);
+          }}
+        >
           <LobbyCard name={item.name} players={item.players.length} maxPlayers={item.max_player}/>
         </Link>
       ))}

@@ -2,6 +2,8 @@
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import SocketService from '@/services/sockets/socket';
+import joinLobbyByCode from "@/services/lobbies/joinLobbyByCode";
+import { useRouter } from "next/navigation";
 
 interface SearchBarProps {
   setSearchValue: Dispatch<SetStateAction<string>>;
@@ -14,8 +16,11 @@ export default function LobbySearchBar(props: SearchBarProps) {
   const [value, setValue] = useState<string>("");
   const [searchTimeout, setSearchTimeout] = useState<number>();
 
+  const router = useRouter();
+
   const search = () => {
     setSearchValue(value);
+    
   };
 
   useEffect(() => {
@@ -40,6 +45,12 @@ export default function LobbySearchBar(props: SearchBarProps) {
     }
   };
 
+  const handlePost = async () => {
+    const response = await joinLobbyByCode(value);
+    console.log(response);
+    router.push(`/lobbies/${response.lobbyId}`);
+  }
+
   const connect = () => {
     const socket = SocketService.joinLobby();
   }
@@ -58,6 +69,7 @@ export default function LobbySearchBar(props: SearchBarProps) {
         className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
         onClick={() => {
           connect();
+          handlePost();
         }}
       >
         Join
