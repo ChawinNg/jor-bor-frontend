@@ -9,15 +9,9 @@ export default function CreateLobbyForm() {
   const [name, setName] = useState<string>();
   const [code, setCode] = useState<string>();
   const [isPublic, setPublic] = useState<boolean>(true);
-  const [players, setPlayers] = useState<SliderValue>();
+  const [players, setPlayers] = useState<SliderValue>(4);
 
   const handlePost = async () => {
-    const data = {
-      name,
-      isPublic,
-      code,
-      players,
-    }
     const response = await createLobby(name, isPublic, code, players);
     console.log(response)
   }
