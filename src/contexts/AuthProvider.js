@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
           }
         );
         if (!response.ok) {
+          window.location.href = "http://localhost:3000";
           throw new Error("Failed to fetch current user");
         }
         const data = await response.json();
