@@ -3,11 +3,15 @@ import { useState, useEffect } from "react";
 import InviteList from "./InviteList";
 import LobbyChat from "./LobbyChat";
 import getOneLobby from "@/services/lobbies/getOneLobby";
+import leaveLobby from "@/services/lobbies/leaveLobby";
+import { useRouter } from "next/navigation";
 
 export default function LobbyMenu({ id }: { id: string }) {
   const [menu, setMenu] = useState<boolean>(false);
   const [isReady, setReady] = useState<boolean>(false);
   const [lobby, setLobby] = useState();
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchLobby = async () => {
@@ -17,6 +21,12 @@ export default function LobbyMenu({ id }: { id: string }) {
     }
     fetchLobby();
   }, [])
+
+  const handleLeave = async () => {
+    const response = await leaveLobby();
+    console.log(response);
+    router.push('/menu');
+  }
 
   return (
     <div className="flex flex-col w-1/5 justify-center gap-y-5 h-full">
@@ -54,7 +64,12 @@ export default function LobbyMenu({ id }: { id: string }) {
       >
         {isReady ? "Ready" : "Not Ready"}
       </button>
-      <button className="py-3 w-full rounded-xl border-1 border-white">
+      <button 
+        className="py-3 w-full rounded-xl border-1 border-white" 
+        onClick={() => {
+          handleLeave();
+        }}
+      >
         Leave Lobby
       </button>
     </div>
