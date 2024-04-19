@@ -1,12 +1,13 @@
 import { Key, useEffect, useRef, useState } from "react";
 import Message from "../chat/Message";
 import { useAuth } from "@/contexts/AuthProvider";
-import { io } from "socket.io-client";
 import { Messages } from "@/models/Message";
+import { useSocket } from "@/contexts/SocketProvider";
 
 export default function LobbyMessageSection({ id }: { id: string }) {
   const [messages, setMessages] = useState<any>([]);
   const { user, setUser } = useAuth();
+  const { socket, setSocket } = useSocket();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -15,9 +16,9 @@ export default function LobbyMessageSection({ id }: { id: string }) {
 
   useEffect(() => {
     // Create a socket connection
-    const socket = io("ws://localhost:8000", {
-      withCredentials: true,
-    });
+    // const socket = io("ws://localhost:8000", {
+    //   withCredentials: true,
+    // });
     socket.emit("joinLobby", id);
     // Listen for incoming messages
     socket.on("lobby message", (message: any) => {
@@ -25,10 +26,10 @@ export default function LobbyMessageSection({ id }: { id: string }) {
     });
 
     // Clean up the socket connection on unmount
-    return () => {
-      socket.disconnect();
-    };
-  }, [user]);
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, [user, socket]);
 
   useEffect(() => {
     scrollToBottom();

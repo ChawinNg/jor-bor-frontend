@@ -1,5 +1,6 @@
 import Message from "@/components/chat/Message";
 import { useAuth } from "@/contexts/AuthProvider";
+import { useSocket } from "@/contexts/SocketProvider";
 import { Messages } from "@/models/Message";
 import { Key, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
@@ -7,6 +8,7 @@ import { io } from "socket.io-client";
 export default function GhostMessageSection({ id }: { id: string }) {
   const [messages, setMessages] = useState<any>([]);
   const { user, setUser } = useAuth();
+  const { socket, setSocket } = useSocket();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -14,9 +16,9 @@ export default function GhostMessageSection({ id }: { id: string }) {
   };
   useEffect(() => {
     // Create a socket connection
-    const socket = io("ws://localhost:8000", {
-      withCredentials: true,
-    });
+    // const socket = io("ws://localhost:8000", {
+    //   withCredentials: true,
+    // });
     socket.emit("joinGhost", id);
     // Listen for incoming messages
     socket.on("ghost message", (message: any) => {
@@ -27,7 +29,7 @@ export default function GhostMessageSection({ id }: { id: string }) {
     return () => {
       socket.disconnect();
     };
-  }, [user]);
+  }, [user, socket]);
 
   useEffect(() => {
     scrollToBottom();

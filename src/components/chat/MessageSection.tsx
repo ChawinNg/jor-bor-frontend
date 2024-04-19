@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import { Messages } from "@/models/Message";
 import { useAuth } from "@/contexts/AuthProvider";
 
-export default function MessageSection() {
+export default function MessageSection({ socket }: { socket: any }) {
   const [messages, setMessages] = useState<any>([]);
   const { user, setUser } = useAuth();
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -15,12 +15,12 @@ export default function MessageSection() {
 
   useEffect(() => {
     // Create a socket connection
-    const socket = io("ws://localhost:8000", {
-      withCredentials: true,
-    });
+    // const socket = io("ws://localhost:8000", {
+    //   withCredentials: true,
+    // });
 
     // Listen for incoming messages
-    socket.on("private message", (message: any) => {
+    socket?.on("private message", (message: any) => {
       if (user) {
         if (
           message.to === user.data.username ||
@@ -32,10 +32,10 @@ export default function MessageSection() {
     });
 
     // Clean up the socket connection on unmount
-    return () => {
-      socket.disconnect();
-    };
-  }, [user]);
+    // return () => {
+    //   socket?.disconnect();
+    // };
+  }, [user, socket]);
 
   useEffect(() => {
     scrollToBottom();
