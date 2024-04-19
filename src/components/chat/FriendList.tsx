@@ -16,21 +16,25 @@ export default function FriendList() {
     ["Masato", "993", "Offline"],
   ];
 
-  const [FriendList, setFriendList] = useState<string[][]>();
+  // const [FriendList, setFriendList] = useState<string[][]>();
 
-  async function fetchFriendsList() {
-    const data = await getAllFriends();
-    console.log(data);
-    let friends: string[][] = [];
-    if (data != undefined) {
-      data.map((item: any, index: any) => {
-        friends.push([item.name, item.id, item.players.length]);
-      });
-      setFriendList(friends);
-    }
-  }
+  // async function fetchFriendsList() {
+  //   const data = await getAllFriends();
+  //   console.log(data);
+  //   let friends: string[][] = [];
+  //   if (data != undefined) {
+  //     data.map((item: any, index: any) => {
+  //       friends.push([item.name, item.id, item.players.length]);
+  //     });
+  //     setFriendList(friends);
+  //   }
+  // }
   useEffect(() => {
-    fetchFriendsList();
+    const getFriends = async () => {
+      const data = await getAllFriends();
+      console.log(data);
+    };
+    getFriends();
   }, []);
 
   return (
