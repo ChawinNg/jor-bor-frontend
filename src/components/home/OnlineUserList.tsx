@@ -2,9 +2,11 @@
 import { Key, useEffect, useState } from "react";
 import FriendCard from "../chat/FriendCard";
 import { useSocket } from "@/contexts/SocketProvider";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function OnlineUserList() {
   const [users, setUsers] = useState<any>([]);
+  const { user, setUser } = useAuth();
   const { socket, setSocket } = useSocket();
 
   useEffect(() => {
@@ -22,7 +24,10 @@ export default function OnlineUserList() {
             className={`flex flex-row w-full py-6 justify-center rounded-lg text-2xl font-semibold items-center  ${"bg-ui-red"}`}
             key={index}
           >
-            <div className="w-full text-center">{item.username}</div>
+            <div className="w-full text-center flex flex-row justify-center items-center gap-x-4">
+              {item.username}
+              {item.username == user.data.username && <div>(Me)</div>}
+            </div>
           </div>
         ))}
       </div>
