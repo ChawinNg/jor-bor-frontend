@@ -13,6 +13,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     const socket = io("ws://localhost:8000", {
       withCredentials: true,
+      autoConnect: false,
     });
     setSocket(socket);
     return () => {
@@ -22,10 +23,13 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      socket.auth = user.data.username;
+      const username = user.data.username;
+      const user_id = user.data._id;
+      socket.auth = { username, user_id };
+      socket.connect();
       console.log(socket.auth);
     }
-  }, [user]);
+  }, [user, socket]);
   return (
     <SocketContext.Provider value={{ socket, setSocket }}>
       {children}
