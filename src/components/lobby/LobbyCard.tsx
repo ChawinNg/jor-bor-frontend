@@ -1,3 +1,4 @@
+import { joinLobby } from "@/services/manageLobby";
 import Image from "next/image";
 
 export default function FriendCard({

@@ -60,6 +60,7 @@ export default function LobbyMenu({ id }: { id: string }) {
         }`}
         onClick={() => {
           setReady(!isReady);
+          isReady ? lobbyReady() : lobbyUnready();
         }}
       >
         {isReady ? "Ready" : "Not Ready"}

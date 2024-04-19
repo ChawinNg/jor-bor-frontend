@@ -1,5 +1,6 @@
 "use client";
 
+import { addFriend } from "@/services/manageFriends";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface SearchBarProps {
@@ -49,7 +50,12 @@ export default function FriendSearchBar(props: SearchBarProps) {
         value={value}
         onKeyDown={onKeyDownHandler}
       ></input>
-      <button className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4">
+      <button
+        onClick={() => {
+          addFriend(value);
+        }}
+        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
+      >
         Add
       </button>
     </div>

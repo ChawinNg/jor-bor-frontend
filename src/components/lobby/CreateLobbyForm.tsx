@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import React from "react";
 import { Slider, SliderValue, Switch } from "@nextui-org/react";
 import createLobby from "@/services/lobbies/createLobby";
@@ -25,7 +25,12 @@ export default function CreateLobbyForm() {
   const router = useRouter();
 
   return (
-    <form className="flex flex-col w-1/4 justify-center items-center gap-y-20">
+    <form
+      onSubmit={(e) => {
+        create(e);
+      }}
+      className="flex flex-col w-1/4 justify-center items-center gap-y-20"
+    >
       <div className="flex flex-col gap-y-7 justify-center items-center w-full">
         <div className="flex w-full flex-row justify-between items-center">
           <label className="text-2xl font-semibold">Lobby Name</label>
