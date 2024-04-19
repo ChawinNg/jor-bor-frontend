@@ -1,4 +1,3 @@
-import PlayerScore from "@/models/User";
 import FriendCard from "./FriendCard";
 
 export default function FriendList() {

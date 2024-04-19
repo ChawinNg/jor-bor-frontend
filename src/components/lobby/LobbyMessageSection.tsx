@@ -1,7 +1,6 @@
 import { Key, useEffect, useRef, useState } from "react";
 import Message from "../chat/Message";
 import { useAuth } from "@/contexts/AuthProvider";
-import { io } from "socket.io-client";
 import { Messages } from "@/models/Message";
 import { useSocket } from "@/contexts/SocketProvider";
 
