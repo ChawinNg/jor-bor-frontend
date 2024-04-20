@@ -1,5 +1,6 @@
 "use client";
 
+import { joinLobby } from "@/services/manageLobby";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import SocketService from '@/services/sockets/socket';
 import joinLobbyByCode from "@/services/lobbies/joinLobbyByCode";
@@ -53,7 +54,7 @@ export default function LobbySearchBar(props: SearchBarProps) {
 
   const connect = () => {
     const socket = SocketService.joinLobby();
-  }
+  };
 
   return (
     <div className="flex flex-row w-1/3 gap-x-8">
@@ -65,12 +66,12 @@ export default function LobbySearchBar(props: SearchBarProps) {
         value={value}
         onKeyDown={onKeyDownHandler}
       ></input>
-      <button 
-        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
+      <button
         onClick={() => {
           connect();
           handlePost();
         }}
+        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
       >
         Join
       </button>
