@@ -20,22 +20,14 @@ export default function FriendList() {
     socket?.on("users", (users: any) => {
       setUsers(users);
     });
-  });
-
-  useEffect(() => {
     async function getAllRequests() {
       const data = await getRequests();
       let requests: string[][] = [];
       data.map((item: any, index: any | Key | undefined) => {
         requests.push([item.username, item.id]);
       });
-      console.log("request: ", requests);
       setRequests(requests);
     }
-    getAllRequests();
-  }, []);
-
-  useEffect(() => {
     async function fetchFriendsList() {
       const data = await getAllFriends();
       console.log("users: ", users);
@@ -59,9 +51,9 @@ export default function FriendList() {
         console.log("friends: ", data);
       }
     }
+    getAllRequests();
     fetchFriendsList();
-  }, [users]);
-  console.log("online: ", users);
+  });
 
   return (
     <div className="flex flex-col w-1/3 h-[48%] overflow-auto gap-y-5 px-4">
