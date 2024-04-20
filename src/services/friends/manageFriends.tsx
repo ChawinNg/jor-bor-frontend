@@ -5,6 +5,7 @@ export async function addFriend(userId: string) {
       { method: "POST", credentials: "include" }
     );
     console.log(response);
+    console.log("add: ", userId);
     if (!response.ok) {
       throw new Error("Failed to add friend");
     }
