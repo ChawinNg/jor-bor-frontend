@@ -23,7 +23,7 @@ export default function LoginForm() {
     const data = await userLogin(name, password);
     // await connectSocket();
     console.log(data);
-    window.location.href = "http://localhost:3000/menu";
+    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/menu`;
   }
   return (
     <form

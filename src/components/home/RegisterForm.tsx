@@ -12,7 +12,7 @@ export default function RegisterForm() {
     event.preventDefault();
     const data = await userRegister(name, password);
     console.log(data);
-    window.location.href = "http://localhost:3000/login";
+    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/login`;
   }
   return (
     <form

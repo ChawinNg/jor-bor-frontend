@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { getAllFriends } from "@/services/friends/getFriends";
 import { useSocket } from "@/contexts/SocketProvider";
 import RequestCard from "./RequestCard";
-import { set } from "mongoose";
 import getRequests from "@/services/friends/getFriendRequests";
 
 export default function FriendList() {

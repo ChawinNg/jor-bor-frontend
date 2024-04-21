@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function BackButton() {
   const { theme, setTheme } = useTheme();
   function goMenu() {
-    window.location.href = "http://localhost:3000/menu";
+    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/menu`;
   }
   return (
     <div onClick={goMenu} className="fixed p-10">
