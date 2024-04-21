@@ -24,6 +24,14 @@ export default function LobbyMenu({ id }: { id: string }) {
     fetchLobby();
   }, [])
 
+  useEffect(() => {
+    if (isReady) {
+      socket?.emit("ready", id);
+    } else {
+      socket?.emit("notReady", id);
+    }
+  }, [isReady])
+
   const handleLeave = async () => {
     const response = await leaveLobby();
     console.log(response);
@@ -63,7 +71,7 @@ export default function LobbyMenu({ id }: { id: string }) {
         }`}
         onClick={() => {
           setReady(!isReady);
-          isReady ? lobbyReady() : lobbyUnready();
+          // isReady ? lobbyReady() : lobbyUnready();
         }}
       >
         {isReady ? "Ready" : "Not Ready"}

@@ -33,12 +33,12 @@ export default function LobbyCampFire() {
     <div className="w-3/4 flex flex-col justify-center items-center gap-y-12">
       <div className="flex flex-row justify-center gap-x-24 w-full items-center">
         {players && total >= 1 ? (
-          <PlayerIcon name={players[0].username} img={""} ready={true} />
+          <PlayerIcon name={players[0].username} img={""} ready={players[0].ready} />
         ) : (
           <EmptyPlayerIcon />
         )}
         {players && total >= 2 ? (
-          <PlayerIcon name={players[1].username} img={""} ready={true} />
+          <PlayerIcon name={players[1].username} img={""} ready={players[1].ready} />
         ) : (
           <EmptyPlayerIcon />
         )}
@@ -46,12 +46,12 @@ export default function LobbyCampFire() {
       <div className="flex flex-row justify-center items-center w-full">
         <div className="flex flex-col items-center gap-y-24">
           {players && total >= 3 ? (
-            <PlayerIcon name={players[2].username} img={""} ready={true} />
+            <PlayerIcon name={players[2].username} img={""} ready={players[2].ready} />
           ) : (
             <EmptyPlayerIcon />
           )}
           {players && total >= 4 ? (
-            <PlayerIcon name={players[3].username} img={""} ready={true} />
+            <PlayerIcon name={players[3].username} img={""} ready={players[3].ready} />
           ) : (
             <EmptyPlayerIcon />
           )}
@@ -64,12 +64,12 @@ export default function LobbyCampFire() {
         />
         <div className="flex flex-col items-center gap-y-24">
           {players && total >= 5 ? (
-            <PlayerIcon name={players[4].username} img={""} ready={true} />
+            <PlayerIcon name={players[4].username} img={""} ready={players[4].ready} />
           ) : (
             <EmptyPlayerIcon />
           )}
           {players && total >= 6 ? (
-            <PlayerIcon name={players[5].username} img={""} ready={true} />
+            <PlayerIcon name={players[5].username} img={""} ready={players[5].ready} />
           ) : (
             <EmptyPlayerIcon />
           )}
@@ -77,12 +77,12 @@ export default function LobbyCampFire() {
       </div>
       <div className="flex flex-row justify-center gap-x-24 w-full items-center">
         {players && total >= 7 ? (
-          <PlayerIcon name={players[6].username} img={""} ready={true} />
+          <PlayerIcon name={players[6].username} img={""} ready={players[6].ready} />
         ) : (
           <EmptyPlayerIcon />
         )}
         {players && total >= 8 ? (
-          <PlayerIcon name={players[7].username} img={""} ready={true} />
+          <PlayerIcon name={players[7].username} img={""} ready={players[7].ready} />
         ) : (
           <EmptyPlayerIcon />
         )}
