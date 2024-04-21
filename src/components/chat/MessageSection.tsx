@@ -20,12 +20,6 @@ export default function MessageSection({
   };
 
   useEffect(() => {
-    // Create a socket connection
-    // const socket = io("ws://localhost:8000", {
-    //   withCredentials: true,
-    // });
-
-    // Listen for incoming messages
     socket?.on("private message", (message: any) => {
       if (user) {
         if (
@@ -37,11 +31,6 @@ export default function MessageSection({
         }
       }
     });
-
-    // Clean up the socket connection on unmount
-    // return () => {
-    //   socket?.disconnect();
-    // };
   }, [user, socket]);
 
   useEffect(() => {
