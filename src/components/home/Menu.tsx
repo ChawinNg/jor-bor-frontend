@@ -2,7 +2,6 @@ import Link from "next/link";
 
 export default function Menu() {
   const handleFriends = () => {
-    // console.log(process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST);
     window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/friends`;
   };
   return (
@@ -13,16 +12,9 @@ export default function Menu() {
       <Link href="/create-lobby" className="w-full flex ">
         <button className="text-left hover:text-ui-red">Create Lobby</button>
       </Link>
-      <Link href="/leaderboard" className="w-full flex ">
-        <button className="text-left hover:text-ui-red">Leaderboard</button>
-      </Link>
-
       <button onClick={handleFriends} className="text-left hover:text-ui-red">
         Friend
       </button>
-      {/* <Link href="/chat" className="w-full flex ">
-        <button className="text-left hover:text-ui-red">Chat</button>
-      </Link> */}
     </div>
   );
 }
