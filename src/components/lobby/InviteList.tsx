@@ -19,11 +19,13 @@ export default function InviteList({ players, max, code }: { players: any[], max
         <div className="font-semibold text-2xl">Lobby Code: {code}</div>
       )}
       <div className="flex flex-col w-full h-full  overflow-auto gap-y-5 px-4">
-        {players.map((item, index) => (
+        {players && players.map((item, index) => (
           <InviteCard name={item.username} key={index} />
         ))}
       </div>
-      <div className="font-semibold text-2xl">{players.length}/{max} Players</div>
+      {players &&
+        <div className="font-semibold text-2xl">{players.length}/{max} Players</div>
+      }
     </div>
   );
 }

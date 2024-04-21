@@ -17,10 +17,6 @@ export default function LobbyCampFire() {
   const { id } = useParams();
 
   useEffect(() => {
-    socket?.emit("joinLobby", id);
-  }, [])
-
-  useEffect(() => {
     socket?.on("lobbyUsers", (users: any) => {
       console.log(users);
       setPlayers(users);
