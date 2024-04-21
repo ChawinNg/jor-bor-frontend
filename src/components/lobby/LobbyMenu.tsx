@@ -5,27 +5,60 @@ import LobbyChat from "./LobbyChat";
 import getOneLobby from "@/services/lobbies/getOneLobby";
 import leaveLobby from "@/services/lobbies/leaveLobby";
 import { useRouter } from "next/navigation";
+import { useSocket } from "@/contexts/SocketProvider";
 
 export default function LobbyMenu({ id }: { id: string }) {
   const [menu, setMenu] = useState<boolean>(false);
   const [isReady, setReady] = useState<boolean>(false);
-  const [lobby, setLobby] = useState();
+  const [lobby, setLobby] = useState<any>();
+  const { socket, setSocket } = useSocket();
+  const [code, setCode] = useState<string | null>(null);
+  const [players, setPlayers] = useState<any>();
+  const [total, setTotal] = useState<number>(0);
 
   const router = useRouter();
+
+  const handleCode = () => {
+    if (lobby && lobby.lobby_code) {
+      setCode(lobby.lobby_code);
+    }
+  }
 
   useEffect(() => {
     const fetchLobby = async () => {
       const data = await getOneLobby(id);
-      console.log(data);
       setLobby(data);
     }
     fetchLobby();
+    handleCode();
   }, [])
+
+  useEffect(() => {
+    console.log(lobby)
+  }, [lobby])
+
+  useEffect(() => {
+    if (isReady) {
+      socket?.emit("ready", id);
+    } else {
+      socket?.emit("notReady", id);
+    }
+  }, [isReady])
+
+  useEffect(() => {
+    socket?.on("lobbyUsers", (users: any) => {
+      console.log(users);
+      setPlayers(users);
+      setTotal(users.length);
+      // console.log(players);
+    })
+  })
 
   const handleLeave = async () => {
     const response = await leaveLobby();
     console.log(response);
-    router.push('/menu');
+    socket.emit("leaveLobby", id);
+    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/menu`;
   }
 
   return (
@@ -52,7 +85,7 @@ export default function LobbyMenu({ id }: { id: string }) {
           Chat
         </button>
       </div>
-      {!menu && <InviteList code={"123456"} />}
+      {!menu && lobby && <InviteList players={players} max={lobby.max_player} code={code} />}
       {menu && <LobbyChat id={id} />}
       <button
         className={`py-3 w-full rounded-xl ${
@@ -60,7 +93,7 @@ export default function LobbyMenu({ id }: { id: string }) {
         }`}
         onClick={() => {
           setReady(!isReady);
-          isReady ? lobbyReady() : lobbyUnready();
+          // isReady ? lobbyReady() : lobbyUnready();
         }}
       >
         {isReady ? "Ready" : "Not Ready"}

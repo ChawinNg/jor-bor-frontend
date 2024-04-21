@@ -3,6 +3,7 @@ import LobbyCard from "./LobbyCard";
 import { useEffect, useState } from "react";
 import getAllLobbies from "@/services/lobbies/getAllLobbies";
 import joinLobby from "@/services/lobbies/joinLobby";
+import { useSocket } from "@/contexts/SocketProvider";
 
 export default function LobbyList() {
   // const players = [
@@ -20,6 +21,8 @@ export default function LobbyList() {
 
   const [lobbies, setLobbies] = useState<Array<any> | null>(null);
 
+  const { socket, setSocket } = useSocket();
+
   useEffect(() => {
     const fetchLobbies = async () => {
       const data = await getAllLobbies();
@@ -32,6 +35,7 @@ export default function LobbyList() {
   const handlePost = async (lobbyId: string) => {
     const response = await joinLobby(lobbyId);
     console.log(response);
+    // socket.emit("joinLobby", lobbyId);
   }
   
   return (

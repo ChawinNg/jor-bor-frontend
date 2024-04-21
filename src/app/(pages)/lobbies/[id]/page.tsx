@@ -9,7 +9,7 @@ export default function LobbyPage({ params }: { params: { id: string } }) {
   const { socket } = useSocket();
 
   useEffect(() => {
-    socket?.emit("joinLobby", { to: params.id });
+    socket?.emit("joinLobby", params.id);
   }, [params.id, socket]);
 
   return (

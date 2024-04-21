@@ -4,22 +4,22 @@ import React from "react";
 import { Slider, SliderValue, Switch } from "@nextui-org/react";
 import createLobby from "@/services/lobbies/createLobby";
 import { useRouter } from "next/navigation";
+import { useSocket } from "@/contexts/SocketProvider";
 
 export default function CreateLobbyForm() {
   const [name, setName] = useState<string>();
   const [code, setCode] = useState<string>();
   const [isPublic, setPublic] = useState<boolean>(true);
-  const [players, setPlayers] = useState<SliderValue>();
+  const [players, setPlayers] = useState<SliderValue>(4);
+
+  const { socket, setSocket } = useSocket();
+
 
   const handlePost = async () => {
-    const data = {
-      name,
-      isPublic,
-      code,
-      players,
-    }
     const response = await createLobby(name, isPublic, code, players);
     console.log(response)
+    socket.emit('joinLobby', response.lobby_id);
+    router.push(`/lobbies/${response.lobby_id}`);
   }
 
   const router = useRouter();
@@ -95,7 +95,6 @@ export default function CreateLobbyForm() {
           onClick={(e) => {
             e.preventDefault();
             handlePost();
-            router.push('/lobbies');
           }}
           className="bg-ui-red py-3 w-1/3 rounded-xl"
         >
