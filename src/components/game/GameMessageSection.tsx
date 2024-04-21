@@ -16,20 +16,11 @@ export default function GameMessageSection({ id }: { id: string }) {
   };
 
   useEffect(() => {
-    // Create a socket connection
-    // const socket = io("ws://localhost:8000", {
-    //   withCredentials: true,
-    // });
     socket.emit("joinGame", id);
     // Listen for incoming messages
     socket.on("game message", (message: any) => {
       setMessages((prevMessages: any) => [...prevMessages, message]);
     });
-
-    // Clean up the socket connection on unmount
-    // return () => {
-    //   socket.disconnect();
-    // };
   }, [user, socket]);
 
   useEffect(() => {

@@ -19,17 +19,6 @@ export default function TextFieldSection({
   const onKeyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") sendMessage();
   };
-
-  // useEffect(() => {
-  //   const socket = io("ws://localhost:8000", {
-  //     withCredentials: true,
-  //   });
-  //   setSocket(socket);
-  //   return () => {
-  //     socket?.disconnect();
-  //   };
-  // }, []);
-
   const sendMessage = () => {
     if (message.trim().length > 0) {
       if (socket) {

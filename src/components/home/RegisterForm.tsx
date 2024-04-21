@@ -11,7 +11,6 @@ export default function RegisterForm() {
   async function register(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = await userRegister(name, password);
-    console.log(data);
     window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/login`;
   }
   return (

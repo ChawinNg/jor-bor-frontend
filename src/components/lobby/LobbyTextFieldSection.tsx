@@ -17,14 +17,7 @@ export default function LobbyTextFieldSection({ id }: { id: string }) {
   };
 
   useEffect(() => {
-    // const socket = io("ws://localhost:8000", {
-    //   withCredentials: true,
-    // });
-    // setSocket(socket);
     socket.emit("joinLobby", id);
-    // return () => {
-    //   socket.disconnect();
-    // };
   }, []);
 
   const sendMessage = () => {
