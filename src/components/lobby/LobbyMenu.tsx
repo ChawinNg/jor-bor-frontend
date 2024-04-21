@@ -25,7 +25,7 @@ export default function LobbyMenu({ id }: { id: string }) {
   const handleLeave = async () => {
     const response = await leaveLobby();
     console.log(response);
-    router.push('/menu');
+    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/menu`;
   }
 
   return (
