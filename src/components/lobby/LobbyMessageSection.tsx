@@ -15,7 +15,6 @@ export default function LobbyMessageSection({ id }: { id: string }) {
   };
 
   useEffect(() => {
-    socket.emit("joinLobby", id);
     // Listen for incoming messages
     socket.on("lobby message", (message: any) => {
       setMessages((prevMessages: any) => [...prevMessages, message]);
