@@ -5,16 +5,31 @@ import PlayerRole from "./PlayerRole";
 import GhostChat from "./ghost/GhostChat";
 import { useTheme } from "@/contexts/ThemeProvider";
 import { useSocket } from "@/contexts/SocketProvider";
+import getOneLobby from "@/services/lobbies/getOneLobby";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function GameMenu({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
+  const { user, setUser } = useAuth();
   const { socket, setSocket } = useSocket();
   const [menu, setMenu] = useState<string>("role");
-  const [isReady, setReady] = useState<boolean>(false);
+  const [isStarted, setStarted] = useState<boolean>(false);
   const isGhost = true;
+
+  const [lobby, setLobby] = useState<any>();
 
   const [players, setPlayers] = useState<any>();
   const [total, setTotal] = useState<number>(0);
+
+  const [playersInfo, setPlayersInfo] = useState<any>();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const data = await getOneLobby(id);
+      setLobby(data);
+    }
+    fetch();
+  }, []);
 
   useEffect(() => {
     socket?.on("inGameUsers", (users: any) => {
@@ -23,7 +38,25 @@ export default function GameMenu({ id }: { id: string }) {
       setTotal(users.length);
       // console.log(players);
     })
+
+    socket?.on("assignRole", (users: any) => {
+      console.log(users);
+      setPlayersInfo(users);
+    })
   })
+
+  useEffect(() => {
+    console.log('try to start')
+    console.log(lobby)
+    console.log(isStarted)
+    console.log(user)
+
+    if (lobby && lobby.players.length === total && !isStarted && user.data._id === lobby.owner) {
+      setStarted(true);
+      console.log('start');
+      socket.emit("start", id);
+    }
+  }, [total])
 
   return (
     <div className="flex flex-col w-1/5 justify-center gap-y-5 h-full">
