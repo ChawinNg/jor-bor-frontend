@@ -51,8 +51,8 @@ export default function LobbySearchBar(props: SearchBarProps) {
   const handlePost = async () => {
     const response = await joinLobbyByCode(value);
     console.log(response);
+    // socket.emit("joinLobby", response.lobbyId)
     router.push(`/lobbies/${response.lobbyId}`);
-    socket.emit("joinLobby", response.lobbyId)
   }
 
   // const connect = () => {
@@ -69,12 +69,12 @@ export default function LobbySearchBar(props: SearchBarProps) {
         value={value}
         onKeyDown={onKeyDownHandler}
       ></input>
-      <button 
-        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
+      <button
         onClick={() => {
           // connect();
           handlePost();
         }}
+        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
       >
         Join
       </button>

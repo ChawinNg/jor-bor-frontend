@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import React from "react";
 import { Slider, SliderValue, Switch } from "@nextui-org/react";
 import createLobby from "@/services/lobbies/createLobby";
 import { useRouter } from "next/navigation";
+import { useSocket } from "@/contexts/SocketProvider";
 
 export default function CreateLobbyForm() {
   const [name, setName] = useState<string>();
@@ -11,15 +12,25 @@ export default function CreateLobbyForm() {
   const [isPublic, setPublic] = useState<boolean>(true);
   const [players, setPlayers] = useState<SliderValue>(4);
 
+  const { socket, setSocket } = useSocket();
+
+
   const handlePost = async () => {
     const response = await createLobby(name, isPublic, code, players);
     console.log(response)
+    socket.emit('joinLobby', response.lobby_id);
+    router.push(`/lobbies/${response.lobby_id}`);
   }
 
   const router = useRouter();
 
   return (
-    <form className="flex flex-col w-1/4 justify-center items-center gap-y-20">
+    <form
+      onSubmit={(e) => {
+        create(e);
+      }}
+      className="flex flex-col w-1/4 justify-center items-center gap-y-20"
+    >
       <div className="flex flex-col gap-y-7 justify-center items-center w-full">
         <div className="flex w-full flex-row justify-between items-center">
           <label className="text-2xl font-semibold">Lobby Name</label>
@@ -84,7 +95,6 @@ export default function CreateLobbyForm() {
           onClick={(e) => {
             e.preventDefault();
             handlePost();
-            router.push('/lobbies');
           }}
           className="bg-ui-red py-3 w-1/3 rounded-xl"
         >

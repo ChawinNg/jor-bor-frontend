@@ -5,11 +5,13 @@ import LobbyChat from "./LobbyChat";
 import getOneLobby from "@/services/lobbies/getOneLobby";
 import leaveLobby from "@/services/lobbies/leaveLobby";
 import { useRouter } from "next/navigation";
+import { useSocket } from "@/contexts/SocketProvider";
 
 export default function LobbyMenu({ id }: { id: string }) {
   const [menu, setMenu] = useState<boolean>(false);
   const [isReady, setReady] = useState<boolean>(false);
   const [lobby, setLobby] = useState();
+  const { socket, setSocket } = useSocket();
 
   const router = useRouter();
 
@@ -25,6 +27,7 @@ export default function LobbyMenu({ id }: { id: string }) {
   const handleLeave = async () => {
     const response = await leaveLobby();
     console.log(response);
+    socket.emit("leaveLobby", id);
     window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/menu`;
   }
 
@@ -60,6 +63,7 @@ export default function LobbyMenu({ id }: { id: string }) {
         }`}
         onClick={() => {
           setReady(!isReady);
+          isReady ? lobbyReady() : lobbyUnready();
         }}
       >
         {isReady ? "Ready" : "Not Ready"}
