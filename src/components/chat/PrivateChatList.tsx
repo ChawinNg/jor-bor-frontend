@@ -19,11 +19,9 @@ export default function PrivateChatList({ id }: { id: string }) {
           if (id == item.username) {
             item.online = true;
           }
-          console.log(item.online);
           friends.push([item.username, item.id, item.online]);
         });
         setFriendList(friends);
-        console.log("friends: ", data);
       }
     }
     fetchFriendsList();

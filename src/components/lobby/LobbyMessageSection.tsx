@@ -15,20 +15,11 @@ export default function LobbyMessageSection({ id }: { id: string }) {
   };
 
   useEffect(() => {
-    // Create a socket connection
-    // const socket = io("ws://localhost:8000", {
-    //   withCredentials: true,
-    // });
     socket.emit("joinLobby", id);
     // Listen for incoming messages
     socket.on("lobby message", (message: any) => {
       setMessages((prevMessages: any) => [...prevMessages, message]);
     });
-
-    // Clean up the socket connection on unmount
-    // return () => {
-    //   socket.disconnect();
-    // };
   }, [user, socket]);
 
   useEffect(() => {
