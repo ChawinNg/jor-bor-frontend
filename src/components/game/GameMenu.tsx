@@ -1,15 +1,29 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GameChat from "./GameChat";
 import PlayerRole from "./PlayerRole";
 import GhostChat from "./ghost/GhostChat";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { useSocket } from "@/contexts/SocketProvider";
 
 export default function GameMenu({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
+  const { socket, setSocket } = useSocket();
   const [menu, setMenu] = useState<string>("role");
   const [isReady, setReady] = useState<boolean>(false);
   const isGhost = true;
+
+  const [players, setPlayers] = useState<any>();
+  const [total, setTotal] = useState<number>(0);
+
+  useEffect(() => {
+    socket?.on("inGameUsers", (users: any) => {
+      console.log(users);
+      setPlayers(users);
+      setTotal(users.length);
+      // console.log(players);
+    })
+  })
 
   return (
     <div className="flex flex-col w-1/5 justify-center gap-y-5 h-full">

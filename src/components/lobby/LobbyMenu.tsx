@@ -6,21 +6,36 @@ import getOneLobby from "@/services/lobbies/getOneLobby";
 import leaveLobby from "@/services/lobbies/leaveLobby";
 import { useRouter } from "next/navigation";
 import { useSocket } from "@/contexts/SocketProvider";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function LobbyMenu({ id }: { id: string }) {
   const [menu, setMenu] = useState<boolean>(false);
   const [isReady, setReady] = useState<boolean>(false);
   const [lobby, setLobby] = useState<any>();
+  const { user, setUser } = useAuth();
   const { socket, setSocket } = useSocket();
   const [code, setCode] = useState<string | null>(null);
   const [players, setPlayers] = useState<any>();
   const [total, setTotal] = useState<number>(0);
+  const [canStart, setCanStart] = useState<boolean>(false);
 
   const router = useRouter();
 
   const handleCode = () => {
     if (lobby && lobby.lobby_code) {
       setCode(lobby.lobby_code);
+    }
+  }
+
+  const checkStart = () => {
+    if (players) {
+      for (let player of players) {
+        if (!player.ready) {
+          setCanStart(false);
+          return;
+        }
+        setCanStart(true);
+      }
     }
   }
 
@@ -52,6 +67,11 @@ export default function LobbyMenu({ id }: { id: string }) {
       setTotal(users.length);
       // console.log(players);
     })
+    checkStart();
+
+    socket?.on("startGame", () => {
+      window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/games/${id}`;
+    })
   })
 
   const handleLeave = async () => {
@@ -63,6 +83,19 @@ export default function LobbyMenu({ id }: { id: string }) {
 
   return (
     <div className="flex flex-col w-1/5 justify-center gap-y-5 h-full">
+      {lobby && user && lobby.owner === user.data._id && 
+        <button
+        className={`py-3 w-full rounded-xl ${
+          canStart ? "bg-ui-red" : "bg-white text-black"
+        }`}
+        onClick={() => {
+          socket.emit("hostStart", id);
+          window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/games/${id}`;
+        }}
+        >
+          Start Game
+        </button>
+      }
       <div className="flex flex-row bg-black gap-x-3 justify-center p-2 rounded-xl">
         <button
           className={`

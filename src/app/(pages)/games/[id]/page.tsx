@@ -1,10 +1,16 @@
 "use client";
 import GameCampFire from "@/components/game/GameCampFire";
 import GameMenu from "@/components/game/GameMenu";
+import { useAuth } from "@/contexts/AuthProvider";
+import { useSocket } from "@/contexts/SocketProvider";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { useEffect } from "react";
 
 export default function GamePage({ params }: { params: { id: string } }) {
   const { theme, setTheme } = useTheme();
+  const { user, setUser } = useAuth();
+  const { socket, setSocket } = useSocket();
+
   function changeMode(theme: string) {
     if (theme == "night") {
       document.body.style.backgroundColor = "#F3EEF4";
@@ -15,6 +21,12 @@ export default function GamePage({ params }: { params: { id: string } }) {
       setTheme("night");
     }
   }
+
+  useEffect(() => {
+    socket?.emit("joinGame", params.id);
+  }, [params.id, socket]);
+
+
   return (
     <div className="flex flex-row h-screen justify-center items-center gap-y-8 gap-x-24 px-20">
       <GameMenu id={params.id}/>
