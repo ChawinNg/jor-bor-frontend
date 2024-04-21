@@ -6,20 +6,21 @@ import { useSocket } from "@/contexts/SocketProvider";
 import RequestCard from "./RequestCard";
 import { set } from "mongoose";
 import getRequests from "@/services/friends/getFriendRequests";
-import { user } from "@nextui-org/react";
-import { on } from "events";
 
 export default function FriendList() {
   const { socket, setSocket } = useSocket();
   const [requests, setRequests] = useState<string[][]>();
   const [users, setUsers] = useState<any>([]);
-  const [onlineUsers, setOnlineUsers] = useState<any>([]);
   const [friendList, setFriendList] = useState<string[][]>();
 
   useEffect(() => {
     socket?.on("users", (users: any) => {
       setUsers(users);
+      console.log("users", users);
     });
+  });
+
+  useEffect(() => {
     async function getAllRequests() {
       const data = await getRequests();
       let requests: string[][] = [];
@@ -28,9 +29,13 @@ export default function FriendList() {
       });
       setRequests(requests);
     }
+    getAllRequests();
+  }, []);
+
+  useEffect(() => {
     async function fetchFriendsList() {
       const data = await getAllFriends();
-      console.log("users: ", users);
+      console.log("online users: ", users);
       let friends: string[][] = [];
       let onlineUsersId: string[] = [];
       users.map((item: any, index: any | Key | undefined) => {
@@ -51,9 +56,10 @@ export default function FriendList() {
         console.log("friends: ", data);
       }
     }
-    getAllRequests();
     fetchFriendsList();
-  });
+  }, [users]);
+
+  console.log("online users: ", users);
 
   return (
     <div className="flex flex-col w-1/3 h-[48%] overflow-auto gap-y-5 px-4">
