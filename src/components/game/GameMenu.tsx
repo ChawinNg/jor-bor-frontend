@@ -8,6 +8,13 @@ import { useSocket } from "@/contexts/SocketProvider";
 import getOneLobby from "@/services/lobbies/getOneLobby";
 import { useAuth } from "@/contexts/AuthProvider";
 
+enum Role {
+  Werewolf,
+  Villager,
+  Seer,
+  // add more roles here
+}
+
 export default function GameMenu({ id }: { id: string }) {
   const { theme, setTheme } = useTheme();
   const { user, setUser } = useAuth();
@@ -21,7 +28,7 @@ export default function GameMenu({ id }: { id: string }) {
   const [players, setPlayers] = useState<any>();
   const [total, setTotal] = useState<number>(0);
 
-  const [playersInfo, setPlayersInfo] = useState<any>();
+  const [playerInfo, setPlayerInfo] = useState<any>();
 
   useEffect(() => {
     const fetch = async () => {
@@ -39,22 +46,22 @@ export default function GameMenu({ id }: { id: string }) {
       // console.log(players);
     })
 
-    socket?.on("assignRole", (users: any) => {
-      console.log(users);
-      setPlayersInfo(users);
+    socket?.on("assignRole", (info: any) => {
+      console.log(info);
+      setPlayerInfo(info);
     })
   })
 
   useEffect(() => {
-    console.log('try to start')
+    console.log('try to start', total)
     console.log(lobby)
     console.log(isStarted)
     console.log(user)
 
     if (lobby && lobby.players.length === total && !isStarted && user.data._id === lobby.owner) {
-      setStarted(true);
       console.log('start');
       socket.emit("start", id);
+      setStarted(true);
     }
   }, [total])
 
@@ -116,7 +123,7 @@ export default function GameMenu({ id }: { id: string }) {
           </button>
         )}
       </div>
-      {menu == "role" && <PlayerRole role={"seer"} />}
+      {menu == "role" && playerInfo && <PlayerRole role={Role[playerInfo.role]} />}
       {menu == "chat" && <GameChat id={id} />}
       {menu == "ghost" && <GhostChat id={id} />}
     </div>

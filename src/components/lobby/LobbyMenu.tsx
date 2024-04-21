@@ -23,6 +23,7 @@ export default function LobbyMenu({ id }: { id: string }) {
 
   const handleCode = () => {
     if (lobby && lobby.lobby_code) {
+      console.log(lobby.lobby_code);
       setCode(lobby.lobby_code);
     }
   }
@@ -42,6 +43,7 @@ export default function LobbyMenu({ id }: { id: string }) {
   useEffect(() => {
     const fetchLobby = async () => {
       const data = await getOneLobby(id);
+      console.log(data)
       setLobby(data);
     }
     fetchLobby();

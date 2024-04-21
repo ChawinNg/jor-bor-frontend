@@ -5,6 +5,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import EmptyGameIcon from "./EmptyGameIcon";
 
+enum Role {
+  Werewolf,
+  Villager,
+  Seer,
+  // add more roles here
+}
+
 export default function GameCampFire() {
   const { socket, setSocket } = useSocket();
   const [players, setPlayers] = useState<any>();
