@@ -1,27 +1,22 @@
 "use client";
 
 import userLogin from "@/services/userLogin";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
-import SocketService from "@/services/sockets/socket";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [name, setName] = useState<string>();
   const [password, setPassword] = useState<string>();
 
-  async function login(event: FormEvent<HTMLFormElement>) {
+  const router = useRouter();
+
+  async function login(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const data = await userLogin(name, password);
-    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/menu`;
+    router.push("/menu");
   }
   return (
-    <form
-      onSubmit={(e) => {
-        login(e);
-      }}
-      className="flex flex-col w-full justify-center items-center gap-y-4 "
-    >
+    <div className="flex flex-col w-full justify-center items-center gap-y-4 ">
       <input
         type="text"
         className="w-1/2 bg-ui-input placeholder:text-ui-text-light py-3 rounded-xl font-normal px-4"
@@ -38,9 +33,9 @@ export default function LoginForm() {
           setPassword(e.target.value);
         }}
       ></input>
-      <button className="w-1/2 bg-ui-red py-3 rounded-xl font-bold">
+      <button onClick={login} className="w-1/2 bg-ui-red py-3 rounded-xl font-bold">
         Play
       </button>
-    </form>
+    </div>
   );
 }
