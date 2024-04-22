@@ -30,6 +30,19 @@ export default function GameMenu({ id }: { id: string }) {
 
   const [playerInfo, setPlayerInfo] = useState<any>();
 
+  const [timer, setTimer] = useState<number | null>(null);
+
+  function changeMode(theme: string) {
+    if (theme == "day") {
+      document.body.style.backgroundColor = "#F3EEF4";
+      setTheme("day");
+    }
+    if (theme == "night") {
+      document.body.style.backgroundColor = "#1a1a1d";
+      setTheme("night");
+    }
+  }
+
   useEffect(() => {
     const fetch = async () => {
       const data = await getOneLobby(id);
@@ -65,8 +78,40 @@ export default function GameMenu({ id }: { id: string }) {
     }
   }, [total])
 
+  useEffect(() => {
+    socket?.on('votingTimer', (newTimer: number) => {
+      setTimer(newTimer);
+      changeMode('day')
+    });
+
+    socket?.on('votingEnded', () => {
+      setTimer(null);
+    })
+  });
+  
+  useEffect(() => {
+    socket?.on('killingTimer', (newTimer: number) => {
+      setTimer(newTimer);
+      changeMode('night');
+    });
+
+    socket?.on('killingEnded', () => {
+      setTimer(null);
+    })
+  })
+
   return (
     <div className="flex flex-col w-1/5 justify-center gap-y-5 h-full">
+      {timer !== null ? (
+        <div className={`${
+          theme === 'night' ? 
+          'text-ui-text-light' :
+          'text-ui-text-dark'
+        }`}>
+          Voting Countdown: {timer} s
+        </div>
+      ) : null
+      }
       <div
         className={`flex flex-row  gap-x-3 justify-center p-2 rounded-xl ${
           theme == "night" ? "bg-black" : "bg-white border-1 border-ui-red"

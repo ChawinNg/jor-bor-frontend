@@ -12,11 +12,11 @@ export default function GamePage({ params }: { params: { id: string } }) {
   const { socket, setSocket } = useSocket();
 
   function changeMode(theme: string) {
-    if (theme == "night") {
+    if (theme == "day") {
       document.body.style.backgroundColor = "#F3EEF4";
       setTheme("day");
     }
-    if (theme == "day") {
+    if (theme == "night") {
       document.body.style.backgroundColor = "#1a1a1d";
       setTheme("night");
     }
@@ -25,6 +25,18 @@ export default function GamePage({ params }: { params: { id: string } }) {
   useEffect(() => {
     socket?.emit("joinGame", params.id);
   }, [params.id, socket]);
+
+  useEffect(() => {
+    socket?.on('votingTimer', (newTimer: number) => {
+      changeMode('day');
+    });
+  })
+
+  useEffect(() => {
+    socket?.on('killingTimer', (newTimer: number) => {
+      changeMode('night');
+    });
+  })
 
 
   return (

@@ -7,6 +7,7 @@ import leaveLobby from "@/services/lobbies/leaveLobby";
 import { useRouter } from "next/navigation";
 import { useSocket } from "@/contexts/SocketProvider";
 import { useAuth } from "@/contexts/AuthProvider";
+import { getAllFriends } from "@/services/friends/getFriends";
 
 export default function LobbyMenu({ id }: { id: string }) {
   const [menu, setMenu] = useState<boolean>(false);
@@ -16,6 +17,7 @@ export default function LobbyMenu({ id }: { id: string }) {
   const { socket, setSocket } = useSocket();
   const [code, setCode] = useState<string | null>(null);
   const [players, setPlayers] = useState<any>();
+  const [inviteList,setInviteList] = useState<any>([]);
   const [total, setTotal] = useState<number>(0);
   const [canStart, setCanStart] = useState<boolean>(false);
 
@@ -39,6 +41,14 @@ export default function LobbyMenu({ id }: { id: string }) {
       }
     }
   }
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      const data = await getAllFriends();
+      setInviteList(data);
+    };
+    fetchFriends();
+  },[]);
 
   useEffect(() => {
     const fetchLobby = async () => {
@@ -120,7 +130,7 @@ export default function LobbyMenu({ id }: { id: string }) {
           Chat
         </button>
       </div>
-      {!menu && lobby && <InviteList players={players} max={lobby.max_player} code={code} />}
+      {!menu && lobby && <InviteList players={players} inviteList={inviteList} max={lobby.max_player} code={code} />}
       {menu && <LobbyChat id={id} />}
       <button
         className={`py-3 w-full rounded-xl ${
