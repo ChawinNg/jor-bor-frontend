@@ -12,7 +12,6 @@ export default function OnlineUserList() {
   useEffect(() => {
     socket?.on("users", (users: any) => {
       setUsers(users);
-      console.log(users);
     });
   });
   return (

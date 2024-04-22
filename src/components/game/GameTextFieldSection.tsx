@@ -17,14 +17,7 @@ export default function GameTextFieldSection({ id }: { id: string }) {
   };
 
   useEffect(() => {
-    // const socket = io("ws://localhost:8000", {
-    //   withCredentials: true,
-    // });
-    // setSocket(socket);
     socket.emit("joinGame", id);
-    // return () => {
-    //   socket.disconnect();
-    // };
   }, []);
 
   const sendMessage = () => {

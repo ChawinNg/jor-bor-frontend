@@ -9,9 +9,7 @@ export default function Message({ message }: { message: Messages }) {
   const sentAt = new Date(message.time);
   const hour = String(sentAt.getHours()).padStart(2, "0");
   const minute = String(sentAt.getMinutes()).padStart(2, "0");
-  useEffect(() => {
-    console.log(message);
-  }, []);
+
   return (
     <div
       className={`flex text-base ${

@@ -4,6 +4,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import SocketService from '@/services/sockets/socket';
 import joinLobbyByCode from "@/services/lobbies/joinLobbyByCode";
 import { useRouter } from "next/navigation";
+import { useSocket } from "@/contexts/SocketProvider";
 
 interface SearchBarProps {
   setSearchValue: Dispatch<SetStateAction<string>>;
@@ -17,6 +18,8 @@ export default function LobbySearchBar(props: SearchBarProps) {
   const [searchTimeout, setSearchTimeout] = useState<number>();
 
   const router = useRouter();
+
+  const { socket, setSocket } = useSocket();
 
   const search = () => {
     setSearchValue(value);
@@ -48,12 +51,13 @@ export default function LobbySearchBar(props: SearchBarProps) {
   const handlePost = async () => {
     const response = await joinLobbyByCode(value);
     console.log(response);
+    // socket.emit("joinLobby", response.lobbyId)
     router.push(`/lobbies/${response.lobbyId}`);
   }
 
-  const connect = () => {
-    const socket = SocketService.joinLobby();
-  }
+  // const connect = () => {
+  //   socket.emit("joinLobby", ())
+  // }
 
   return (
     <div className="flex flex-row w-1/3 gap-x-8">
@@ -65,12 +69,12 @@ export default function LobbySearchBar(props: SearchBarProps) {
         value={value}
         onKeyDown={onKeyDownHandler}
       ></input>
-      <button 
-        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
+      <button
         onClick={() => {
-          connect();
+          // connect();
           handlePost();
         }}
+        className="w-2/6 bg-ui-red py-3 rounded-xl font-normal px-4"
       >
         Join
       </button>
