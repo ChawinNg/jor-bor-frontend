@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NightBegun from "./NightBegun";
 import KillPlayer from "./werewolf/KillPlayer";
 import SeeRole from "./seer/SeeRole";
@@ -8,23 +8,63 @@ import NightOver from "./NightOver";
 import { useTheme } from "@/contexts/ThemeProvider";
 import VotePlayer from "./vote/VotePlayer";
 import PlayerKill from "./announce/PlayerKilled";
+import { useSocket } from "@/contexts/SocketProvider";
+
+enum Role {
+  Werewolf,
+  Villager,
+  Seer,
+  // add more roles here
+}
 
 export default function GamePlayerIcon({
-  name,
+  name, // name : {socketID, username, userId},
+  info,
   img,
-  ready,
+  isNight,
+  handler,
 }: {
-  name: string;
+  name: any;
+  info: any; // info of player : {socketID, username, userId, role, alive}
   img: string;
-  ready: boolean;
+  isNight: boolean;
+  handler: Function;
 }) {
   const { theme, setTheme } = useTheme();
-  const [isNight, setNight] = useState<boolean>(false);
+  // const [isNight, setNight] = useState<boolean>(false);
   const [isSelect, setSelect] = useState<boolean>(false);
+  const [isAlive, setAlive] = useState<boolean>(true);
+
+  const { socket, setSocket } = useSocket();
+
+  const handleSelect = (sid: string) => {
+    if (isNight) {
+      if (info.role === Role.Werewolf) {
+        handler(sid);
+      }
+    } else {
+      handler(sid);
+    }
+  }
+
+  // day vote
+  useEffect(() => {
+    socket?.on('targetVoted', (votedPlayerId: string) => {
+      setAlive(votedPlayerId !== name.socketID);
+    })
+  })
+
+  // werewolf kill
+  useEffect(() => {
+    socket?.on('targetKilled', (votedPlayerId: string) => {
+      setAlive(votedPlayerId !== name.socketID);
+    })
+  })
+
   return (
-    <div className="flex flex-col justify-center items-center gap-y-2 cursor-pointer">
+    <div className={`flex flex-col justify-center items-center gap-y-2 ${info.alive ? 'cursor-pointer' : 'cursor-default'}`}>
       <div
-        className={`relative flex aspect-square w-24 items-center justify-center overflow-hidden rounded-full bg-ui-red ${
+        className={`relative flex aspect-square w-24 items-center justify-center overflow-hidden rounded-full ${isAlive ? 'bg-ui-red' : 'bg-ui-gray'} ${
           isSelect
             ? theme == "night"
               ? "border-8 border-white"
@@ -32,8 +72,11 @@ export default function GamePlayerIcon({
             : ""
         }`}
         onClick={() => {
-          setSelect(!isSelect);
-          setNight(!isNight);
+          if (info.alive) {
+            setSelect(!isSelect);
+            // setNight(!isNight);
+            handleSelect(name.socketID);
+          }
         }}
       >
         <Image
@@ -45,14 +88,14 @@ export default function GamePlayerIcon({
         />
       </div>
       <div className={`${theme == "night" ? "text-white" : "text-black"}`}>
-        {name}
+        {name.username}
       </div>
       {/* {isNight && <NightBegun setNight={setNight}/>} */}
       {/* {isNight && <NightOver setNight={setNight} />} */}
       {/* {isNight && <KillPlayer setKill={setNight} />} */}
       {/* {isNight && <SeeRole setSee={setNight} role={"villager"} />} */}
       {/* {isNight && <VotePlayer setKill={setNight} />} */}
-      {isNight && <PlayerKill setKill={setNight} />}
+      {/* {isNight && <PlayerKill setKill={setNight} />} */}
     </div>
   );
 }
