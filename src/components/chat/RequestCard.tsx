@@ -1,7 +1,5 @@
 import { acceptFriend, rejectFriend } from "@/services/friends/manageFriends";
-import { set } from "mongoose";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function FriendCard({ name, id }: { name: string; id: string }) {
   //   const [targetId, setTargetId] = useState<string>("");
