@@ -14,13 +14,12 @@ export default function CreateLobbyForm() {
 
   const { socket, setSocket } = useSocket();
 
-
   const handlePost = async () => {
     const response = await createLobby(name, isPublic, code, players);
-    console.log(response)
-    socket.emit('joinLobby', response.lobby_id);
+    console.log(response);
+    socket.emit("joinLobby", response.lobby_id);
     router.push(`/lobbies/${response.lobby_id}`);
-  }
+  };
 
   const router = useRouter();
 

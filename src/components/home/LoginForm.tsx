@@ -13,6 +13,9 @@ export default function LoginForm() {
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = await userLogin(name, password);
+    if (!data) {
+      alert("Your email or password is incorrect!");
+    }
     window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/menu`;
   }
   return (

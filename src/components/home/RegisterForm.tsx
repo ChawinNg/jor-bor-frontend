@@ -11,7 +11,11 @@ export default function RegisterForm() {
   async function register(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = await userRegister(name, password);
-    window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/login`;
+    if (!data) {
+      alert("The username has already been used!\nPlease try something else.");
+      window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/register`;
+    } else
+      window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/login`;
   }
   return (
     <form
