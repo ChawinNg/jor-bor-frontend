@@ -16,13 +16,7 @@ export default function PlayerRank() {
   return (
     <div className="flex flex-col w-1/3 h-[45%] overflow-auto gap-y-5 px-4">
       {players.map((item, index) => (
-        <PlayerCard
-          rank={index + 1}
-          name={item[0]}
-          score={item[1]}
-          me={item[2]}
-          key={index}
-        />
+        <PlayerCard rank={index + 1} name={item[0]} score={item[1]} me={item[2]} key={index} />
       ))}
     </div>
   );
