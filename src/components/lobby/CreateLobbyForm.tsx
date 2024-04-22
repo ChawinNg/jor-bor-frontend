@@ -14,23 +14,17 @@ export default function CreateLobbyForm() {
 
   const { socket, setSocket } = useSocket();
 
-
   const handlePost = async () => {
     const response = await createLobby(name, isPublic, code, players);
-    console.log(response)
-    socket.emit('joinLobby', response.lobby_id);
+    console.log(response);
+    socket.emit("joinLobby", response.lobby_id);
     router.push(`/lobbies/${response.lobby_id}`);
-  }
+  };
 
   const router = useRouter();
 
   return (
-    <form
-      onSubmit={(e) => {
-        create(e);
-      }}
-      className="flex flex-col w-1/4 justify-center items-center gap-y-20"
-    >
+    <form className="flex flex-col w-1/4 justify-center items-center gap-y-20">
       <div className="flex flex-col gap-y-7 justify-center items-center w-full">
         <div className="flex w-full flex-row justify-between items-center">
           <label className="text-2xl font-semibold">Lobby Name</label>
