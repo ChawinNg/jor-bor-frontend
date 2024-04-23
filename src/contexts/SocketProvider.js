@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
   const { user, setUser } = useAuth();
 
   useEffect(() => {
-    const socket = io("ws://localhost:8000", {
+    const socket = io(process.env.NEXT_PUBLIC_WS_BACKEND_HOST, {
       withCredentials: true,
       autoConnect: false,
     });
@@ -30,9 +30,5 @@ export const SocketProvider = ({ children }) => {
       console.log(socket.auth);
     }
   }, [user, socket]);
-  return (
-    <SocketContext.Provider value={{ socket, setSocket }}>
-      {children}
-    </SocketContext.Provider>
-  );
+  return <SocketContext.Provider value={{ socket, setSocket }}>{children}</SocketContext.Provider>;
 };
