@@ -52,17 +52,23 @@ export default function GameCampFire() {
       setTotal(users.length);
       // console.log(players);
     })
+  })
 
+  useEffect(() => {
     socket?.on("assignRole", (info: any) => {
       console.log(info);
       setPlayerInfo(info);
     })
+  })
 
+  useEffect(() => {
     socket?.on('updateStatus', (info: any, latestDead: string) => {
       console.log(info);
       setPlayerInfo(info);
     })
+  })
 
+  useEffect(() => {
     socket?.on('received', () => {
       setTarget('');
     })
@@ -182,11 +188,13 @@ export default function GameCampFire() {
 
   useEffect(() => {
     socket?.on('villagerWin', () => {
-      console.log('villager wins')
+      alert('villager wins')
     })
+  })
 
+  useEffect(() => {
     socket?.on('werewolfWin', () => {
-      console.log('werewolf wins')
+      alert('werewolf wins')
     })
   })
 
