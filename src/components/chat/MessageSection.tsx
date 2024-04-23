@@ -34,6 +34,21 @@ export default function MessageSection({
   }, [user, socket]);
 
   useEffect(() => {
+    socket?.on("invitation", (data: any) => {
+      console.log("invitation", data);
+      if (user) {
+        if (
+          (data.to === user.data.username ||
+            data.user === user.data.username) &&
+          (data.to === id || data.user === id)
+        ) {
+          setMessages((prevMessages: any) => [...prevMessages, data]);
+        }
+      }
+    });
+  }, [user, socket]);
+
+  useEffect(() => {
     scrollToBottom();
   });
 

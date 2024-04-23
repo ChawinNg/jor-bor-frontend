@@ -22,7 +22,7 @@ export default function GameCampFire() {
   const [total, setTotal] = useState<number>(0);
   const [playerInfo, setPlayerInfo] = useState<any>();
 
-  const [target, setTarget] = useState<string>('');
+  const [target, setTarget] = useState<string>("");
   const [canVote, setCanVote] = useState<boolean>(false);
   const [canKill, setCanKill] = useState<boolean>(false);
   const [canCheck, setCanCheck] = useState<boolean>(false);
@@ -51,48 +51,47 @@ export default function GameCampFire() {
       setPlayers(users);
       setTotal(users.length);
       // console.log(players);
-    })
+    });
 
     socket?.on("assignRole", (info: any) => {
       console.log(info);
       setPlayerInfo(info);
-    })
+    });
 
-    socket?.on('updateStatus', (info: any, latestDead: string) => {
+    socket?.on("updateStatus", (info: any, latestDead: string) => {
       console.log(info);
       setPlayerInfo(info);
-    })
+    });
 
-    socket?.on('received', () => {
-      setTarget('');
-    })
-  })
+    socket?.on("received", () => {
+      setTarget("");
+    });
+  });
 
   useEffect(() => {
-    socket?.on('targetVoted', (votedPlayerId: string) => {
+    socket?.on("targetVoted", (votedPlayerId: string) => {
       if (user.data._id === id) {
-        socket?.emit('goNext', id);
+        socket?.emit("goNext", id);
       }
-    })
-  })
+    });
+  });
 
   useEffect(() => {
-    socket?.on('targetKilled', (votedPlayerId: string) => {
+    socket?.on("targetKilled", (votedPlayerId: string) => {
       if (user.data._id === id) {
-        socket?.emit('goNext', id);
+        socket?.emit("goNext", id);
       }
-    })
-  })
-  
+    });
+  });
 
   useEffect(() => {
-    socket?.on('votingTimer', (newTimer: number) => {
+    socket?.on("votingTimer", (newTimer: number) => {
       setTimer(newTimer);
-      changeMode('day');
+      changeMode("day");
       setNight(false);
       setCanVote(true);
     });
-  })
+  });
 
   useEffect(() => {
     console.log(target);
@@ -100,11 +99,11 @@ export default function GameCampFire() {
       if (canVote) {
         setCanVote(false);
         console.log(target);
-        socket?.emit('dayVote', id, target);
+        socket?.emit("dayVote", id, target);
       }
-    }
+    };
 
-    socket?.on('votingEnded', () => {
+    socket?.on("votingEnded", () => {
       handleTarget();
       setTimer(null);
     });
@@ -113,13 +112,13 @@ export default function GameCampFire() {
   // werewolf
 
   useEffect(() => {
-    socket?.on('killingTimer', (newTimer: number) => {
+    socket?.on("killingTimer", (newTimer: number) => {
       setTimer(newTimer);
-      changeMode('night');
+      changeMode("night");
       setNight(true);
       setCanKill(true);
     });
-  })
+  });
 
   useEffect(() => {
     console.log(target);
@@ -127,26 +126,25 @@ export default function GameCampFire() {
       if (canKill) {
         setCanKill(false);
         console.log(target);
-        socket?.emit('nightVote', id, target);
+        socket?.emit("nightVote", id, target);
       }
-    }
+    };
 
-    socket?.on('killingEnded', () => {
+    socket?.on("killingEnded", () => {
       handleTarget();
       setTimer(null);
     });
   }, [target]);
 
-
   // seer
   useEffect(() => {
-    socket?.on('checkingTimer', (newTimer: number) => {
+    socket?.on("checkingTimer", (newTimer: number) => {
       setTimer(newTimer);
-      changeMode('night');
+      changeMode("night");
       setNight(true);
       setCanCheck(true);
     });
-  })
+  });
 
   useEffect(() => {
     console.log(target);
@@ -154,41 +152,40 @@ export default function GameCampFire() {
       if (canCheck) {
         setCanCheck(false);
         console.log(target);
-        socket?.emit('seerSelected', id, target);
+        socket?.emit("seerSelected", id, target);
       }
-    }
+    };
 
-    socket?.on('checkingEnded', () => {
+    socket?.on("checkingEnded", () => {
       handleTarget();
       setTimer(null);
     });
   }, [target]);
-  
+
   useEffect(() => {
-    socket?.on('seerResult', (id: string, role: string) => {
+    socket?.on("seerResult", (id: string, role: string) => {
       let name;
       players?.forEach((player) => {
-        if (player.socketID === id && role !== 'seer dead') {
+        if (player.socketID === id && role !== "seer dead") {
           name = player.username;
           alert(`player ${name} has a role of ${role}`);
         }
-      })
+      });
       if (user.data._id === id) {
-        socket?.emit('goNext', id);
+        socket?.emit("goNext", id);
       }
-    })
-  })
-
+    });
+  });
 
   useEffect(() => {
-    socket?.on('villagerWin', () => {
-      console.log('villager wins')
-    })
+    socket?.on("villagerWin", () => {
+      alert("villager wins");
+    });
 
-    socket?.on('werewolfWin', () => {
-      console.log('werewolf wins')
-    })
-  })
+    socket?.on("werewolfWin", () => {
+      alert("werewolf wins");
+    });
+  });
 
   // useEffect(() => {
   //   console.log(target);
@@ -196,7 +193,7 @@ export default function GameCampFire() {
 
   const handleReceivedValue = (sid: string) => {
     setTarget(sid);
-  }
+  };
 
   // ---------------- DONT EVER DARE TOUCH --------------------
 
@@ -204,12 +201,24 @@ export default function GameCampFire() {
     <div className="w-3/4 flex flex-col justify-center items-center gap-y-12">
       <div className="flex flex-row justify-center gap-x-24 w-full items-center">
         {players && playerInfo && total >= 1 ? (
-          <GamePlayerIcon name={players[0]} info={playerInfo} img={""} isNight={isNight} handler={handleReceivedValue} />
+          <GamePlayerIcon
+            name={players[0]}
+            info={playerInfo}
+            img={""}
+            isNight={isNight}
+            handler={handleReceivedValue}
+          />
         ) : (
           <EmptyGameIcon />
         )}
         {players && playerInfo && total >= 2 ? (
-          <GamePlayerIcon name={players[1]} info={playerInfo} img={""} isNight={isNight} handler={handleReceivedValue} />
+          <GamePlayerIcon
+            name={players[1]}
+            info={playerInfo}
+            img={""}
+            isNight={isNight}
+            handler={handleReceivedValue}
+          />
         ) : (
           <EmptyGameIcon />
         )}
@@ -217,12 +226,24 @@ export default function GameCampFire() {
       <div className="flex flex-row justify-center items-center w-full">
         <div className="flex flex-col items-center gap-y-24">
           {players && playerInfo && total >= 3 ? (
-            <GamePlayerIcon name={players[2]} info={playerInfo} img={""} isNight={isNight} handler={handleReceivedValue} />
+            <GamePlayerIcon
+              name={players[2]}
+              info={playerInfo}
+              img={""}
+              isNight={isNight}
+              handler={handleReceivedValue}
+            />
           ) : (
             <EmptyGameIcon />
           )}
           {players && playerInfo && total >= 4 ? (
-            <GamePlayerIcon name={players[3]} info={playerInfo} img={""} isNight={isNight} handler={handleReceivedValue} />
+            <GamePlayerIcon
+              name={players[3]}
+              info={playerInfo}
+              img={""}
+              isNight={isNight}
+              handler={handleReceivedValue}
+            />
           ) : (
             <EmptyGameIcon />
           )}
@@ -235,28 +256,52 @@ export default function GameCampFire() {
         />
         <div className="flex flex-col items-center gap-y-24">
           {players && playerInfo && total >= 5 ? (
-            <GamePlayerIcon name={players[4]} info={playerInfo} img={""} isNight={isNight} handler={handleReceivedValue} />
+            <GamePlayerIcon
+              name={players[4]}
+              info={playerInfo}
+              img={""}
+              isNight={isNight}
+              handler={handleReceivedValue}
+            />
           ) : (
             <EmptyGameIcon />
           )}
           {players && playerInfo && total >= 6 ? (
-            <GamePlayerIcon name={players[5]} info={playerInfo} img={""} isNight={isNight} handler={handleReceivedValue} />
+            <GamePlayerIcon
+              name={players[5]}
+              info={playerInfo}
+              img={""}
+              isNight={isNight}
+              handler={handleReceivedValue}
+            />
           ) : (
             <EmptyGameIcon />
           )}
         </div>
       </div>
       <div className="flex flex-row justify-center gap-x-24 w-full items-center">
-          {players && playerInfo && total >= 7 ? (
-            <GamePlayerIcon name={players[6]} info={playerInfo} img={""} isNight={isNight} handler={handleReceivedValue} />
-          ) : (
-            <EmptyGameIcon />
-          )}
-          {players && playerInfo && total >= 8 ? (
-            <GamePlayerIcon name={players[7]} info={playerInfo} img={""} isNight={isNight} handler={handleReceivedValue} />
-          ) : (
-            <EmptyGameIcon />
-          )}
+        {players && playerInfo && total >= 7 ? (
+          <GamePlayerIcon
+            name={players[6]}
+            info={playerInfo}
+            img={""}
+            isNight={isNight}
+            handler={handleReceivedValue}
+          />
+        ) : (
+          <EmptyGameIcon />
+        )}
+        {players && playerInfo && total >= 8 ? (
+          <GamePlayerIcon
+            name={players[7]}
+            info={playerInfo}
+            img={""}
+            isNight={isNight}
+            handler={handleReceivedValue}
+          />
+        ) : (
+          <EmptyGameIcon />
+        )}
       </div>
     </div>
   );

@@ -13,6 +13,10 @@ export default function LoginForm() {
   async function login(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const data = await userLogin(name, password);
+
+    if (!data) {
+      alert("Your email or password is incorrect!");
+    }
     router.push("/menu");
   }
   return (
@@ -33,7 +37,10 @@ export default function LoginForm() {
           setPassword(e.target.value);
         }}
       ></input>
-      <button onClick={login} className="w-1/2 bg-ui-red py-3 rounded-xl font-bold">
+      <button
+        onClick={login}
+        className="w-1/2 bg-ui-red py-3 rounded-xl font-bold"
+      >
         Play
       </button>
     </div>
