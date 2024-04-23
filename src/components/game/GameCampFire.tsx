@@ -51,22 +51,28 @@ export default function GameCampFire() {
       setPlayers(users);
       setTotal(users.length);
       // console.log(players);
-    });
+    })
+  })
 
+  useEffect(() => {
     socket?.on("assignRole", (info: any) => {
       console.log(info);
       setPlayerInfo(info);
-    });
+    })
+  })
 
-    socket?.on("updateStatus", (info: any, latestDead: string) => {
+  useEffect(() => {
+    socket?.on('updateStatus', (info: any, latestDead: string) => {
       console.log(info);
       setPlayerInfo(info);
-    });
+    })
+  })
 
-    socket?.on("received", () => {
-      setTarget("");
-    });
-  });
+  useEffect(() => {
+    socket?.on('received', () => {
+      setTarget('');
+    })
+  })
 
   useEffect(() => {
     socket?.on("targetVoted", (votedPlayerId: string) => {
@@ -178,14 +184,16 @@ export default function GameCampFire() {
   });
 
   useEffect(() => {
-    socket?.on("villagerWin", () => {
-      alert("villager wins");
-    });
+    socket?.on('villagerWin', () => {
+      alert('villager wins')
+    })
+  })
 
-    socket?.on("werewolfWin", () => {
-      alert("werewolf wins");
-    });
-  });
+  useEffect(() => {
+    socket?.on('werewolfWin', () => {
+      alert('werewolf wins')
+    })
+  })
 
   // useEffect(() => {
   //   console.log(target);

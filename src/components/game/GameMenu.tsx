@@ -58,7 +58,9 @@ export default function GameMenu({ id }: { id: string }) {
       setTotal(users.length);
       // console.log(players);
     })
+  })
 
+  useEffect(() => {
     socket?.on("assignRole", (info: any) => {
       console.log(info);
       setPlayerInfo(info);
@@ -83,18 +85,22 @@ export default function GameMenu({ id }: { id: string }) {
       setTimer(newTimer);
       changeMode('day')
     });
+  });
 
+  useEffect(() => {
     socket?.on('votingEnded', () => {
       setTimer(null);
     })
-  });
+  })
   
   useEffect(() => {
     socket?.on('killingTimer', (newTimer: number) => {
       setTimer(newTimer);
       changeMode('night');
     });
+  })
 
+  useEffect(() => {
     socket?.on('killingEnded', () => {
       setTimer(null);
     })
