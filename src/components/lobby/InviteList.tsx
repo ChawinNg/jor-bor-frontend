@@ -33,11 +33,6 @@ export default function InviteList({
           {players.length}/{max} Players
         </div>
       )}
-      {players && (
-        <div className="font-semibold text-2xl">
-          {players.length}/{max} Players
-        </div>
-      )}
     </div>
   );
 }
