@@ -9,15 +9,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     async function getCurrentUser() {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_HTTP_BACKEND_HOST}/api/users/me`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HTTP_BACKEND_HOST}/api/users/me`, {
+          method: "GET",
+          credentials: "include",
+        });
         if (!response.ok) {
-          window.location.href = "http://localhost:3000";
+          window.location.href = process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST;
           throw new Error("Failed to fetch current user");
         }
         const data = await response.json();
@@ -29,9 +26,5 @@ export const AuthProvider = ({ children }) => {
     }
     getCurrentUser();
   }, []);
-  return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
 };
