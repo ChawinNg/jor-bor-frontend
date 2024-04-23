@@ -1,9 +1,8 @@
 "use client";
+import GlobalChat from "@/components/chat/GlobalChat";
 import Menu from "@/components/home/Menu";
 import MenuSection from "@/components/home/MenuSection";
 import OnlineUserList from "@/components/home/OnlineUserList";
-import SocketService from "@/services/sockets/socket";
-import { useEffect } from "react";
 
 export default function MenuPage() {
   return (
@@ -12,6 +11,7 @@ export default function MenuPage() {
         <Menu />
       </MenuSection>
       <OnlineUserList />
+      <GlobalChat />
     </div>
   );
 }

@@ -31,7 +31,7 @@ export default function LoginForm() {
         }}
       ></input>
       <input
-        type="text"
+        type="password"
         className="w-1/2 bg-ui-input placeholder:text-ui-text-light py-3 rounded-xl font-normal px-4"
         placeholder="Enter your password"
         onChange={(e) => {
