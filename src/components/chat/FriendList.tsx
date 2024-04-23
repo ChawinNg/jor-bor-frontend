@@ -42,7 +42,7 @@ export default function FriendList() {
       });
       console.log("onlineUsersId: ", onlineUsersId);
       if (data != undefined) {
-        data.map((item: any, index: any | Key | undefined) => {
+        data?.map((item: any, index: any | Key | undefined) => {
           if (onlineUsersId.includes(item.id)) {
             item.online = "Online";
             friends.push([item.username, item.id, item.online]);
