@@ -25,6 +25,7 @@ export default function GameCampFire() {
   const [target, setTarget] = useState<string>('');
   const [canVote, setCanVote] = useState<boolean>(false);
   const [canKill, setCanKill] = useState<boolean>(false);
+  const [canCheck, setCanCheck] = useState<boolean>(false);
 
   const [timer, setTimer] = useState<number | null>(null);
   const [isNight, setNight] = useState<boolean>(false);
@@ -67,6 +68,21 @@ export default function GameCampFire() {
     })
   })
 
+  useEffect(() => {
+    socket?.on('targetVoted', (votedPlayerId: string) => {
+      if (user.data._id === id) {
+        socket?.emit('goNext', id);
+      }
+    })
+  })
+
+  useEffect(() => {
+    socket?.on('targetKilled', (votedPlayerId: string) => {
+      if (user.data._id === id) {
+        socket?.emit('goNext', id);
+      }
+    })
+  })
   
 
   useEffect(() => {
@@ -122,16 +138,44 @@ export default function GameCampFire() {
   }, [target]);
 
 
-  // seer 
+  // seer
+  useEffect(() => {
+    socket?.on('checkingTimer', (newTimer: number) => {
+      setTimer(newTimer);
+      changeMode('night');
+      setNight(true);
+      setCanCheck(true);
+    });
+  })
+
+  useEffect(() => {
+    console.log(target);
+    const handleTarget = () => {
+      if (canCheck) {
+        setCanCheck(false);
+        console.log(target);
+        socket?.emit('seerSelected', id, target);
+      }
+    }
+
+    socket?.on('checkingEnded', () => {
+      handleTarget();
+      setTimer(null);
+    });
+  }, [target]);
+  
   useEffect(() => {
     socket?.on('seerResult', (id: string, role: string) => {
       let name;
       players?.forEach((player) => {
-        if (player.socketID === id) {
+        if (player.socketID === id && role !== 'seer dead') {
           name = player.username;
+          alert(`player ${name} has a role of ${role}`);
         }
       })
-      console.log(`player ${name} has a role of ${role}`);
+      if (user.data._id === id) {
+        socket?.emit('goNext', id);
+      }
     })
   })
 

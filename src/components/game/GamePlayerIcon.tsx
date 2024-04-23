@@ -50,14 +50,22 @@ export default function GamePlayerIcon({
   // day vote
   useEffect(() => {
     socket?.on('targetVoted', (votedPlayerId: string) => {
-      setAlive(votedPlayerId !== name.socketID);
+      if (votedPlayerId === name.socketID) {
+        setAlive(false);
+        alert(`player ${name.username} has been voted off`)
+      }
+      // setAlive(votedPlayerId !== name.socketID);
     })
   })
 
   // werewolf kill
   useEffect(() => {
     socket?.on('targetKilled', (votedPlayerId: string) => {
-      setAlive(votedPlayerId !== name.socketID);
+      if (votedPlayerId === name.socketID) {
+        setAlive(false);
+        alert(`player ${name.username} has been killed at night`)
+      }
+      // setAlive(votedPlayerId !== name.socketID);
     })
   })
 
