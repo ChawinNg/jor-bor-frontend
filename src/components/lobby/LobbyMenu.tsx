@@ -20,6 +20,7 @@ export default function LobbyMenu({ id }: { id: string }) {
   const [inviteList, setInviteList] = useState<any>([]);
   const [total, setTotal] = useState<number>(0);
   const [canStart, setCanStart] = useState<boolean>(false);
+  const [join, setJoin] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -81,10 +82,22 @@ export default function LobbyMenu({ id }: { id: string }) {
     });
     checkStart();
 
-    socket?.on("startGame", () => {
-      window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/games/${id}`;
-    });
+    // socket?.on("startGame", () => {
+    //   window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/games/${id}`;
+    // });
   });
+
+  useEffect(() => {
+    socket?.on('startGame', () => {
+      setJoin(true);
+    })
+  })
+
+  useEffect(() => {
+    if (join) {
+      window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/games/${id}`;
+    }
+  }, [join]);
 
   const handleLeave = async () => {
     const response = await leaveLobby();
@@ -102,7 +115,8 @@ export default function LobbyMenu({ id }: { id: string }) {
           }`}
           onClick={() => {
             socket.emit("hostStart", id);
-            window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/games/${id}`;
+            // setJoin(true);
+            // window.location.href = `${process.env.NEXT_PUBLIC_HTTP_FRONTEND_HOST}/games/${id}`;
           }}
         >
           Start Game
