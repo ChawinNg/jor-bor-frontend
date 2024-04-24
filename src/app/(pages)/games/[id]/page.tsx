@@ -22,9 +22,16 @@ export default function GamePage({ params }: { params: { id: string } }) {
     }
   }
 
-  useEffect(() => {
-    socket?.emit("joinGame", params.id);
-  }, [params.id, socket]);
+  // useEffect(() => {
+  //   if (user.data._id === params.id) {
+  //     // socket.emit("hostStart", params.id);
+  //     socket?.emit('joinGame', )
+  //   }
+  // })
+
+  // useEffect(() => {
+  //   socket?.emit("joinGame", params.id);
+  // }, [params.id, socket]);
 
   useEffect(() => {
     socket?.on('votingTimer', (newTimer: number) => {
@@ -47,7 +54,7 @@ export default function GamePage({ params }: { params: { id: string } }) {
         className="text-ui-red absolute right-0 px-4"
         onClick={() => changeMode(theme)}
       >
-        test1
+        {/* test1 */}
       </button>
     </div>
   );

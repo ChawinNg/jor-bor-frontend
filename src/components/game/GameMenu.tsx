@@ -52,6 +52,17 @@ export default function GameMenu({ id }: { id: string }) {
   }, []);
 
   useEffect(() => {
+    socket?.emit('joined', id, lobby.players);
+  }, [lobby])
+
+  // useEffect(() => {
+  //   if (lobby && user && user.data._id === id) {
+  //     // socket.emit("hostStart", params.id);
+  //     socket?.emit('joinGame', id, lobby.players)
+  //   }
+  // }, [lobby, user])
+
+  useEffect(() => {
     socket?.on("inGameUsers", (users: any) => {
       console.log(users);
       setPlayers(users);
@@ -73,12 +84,12 @@ export default function GameMenu({ id }: { id: string }) {
     console.log(isStarted)
     console.log(user)
 
-    if (lobby && lobby.players.length === total && !isStarted && user.data._id === lobby.owner) {
+    if (lobby && lobby.players.length === total && !isStarted) {
       console.log('start');
       socket.emit("start", id);
       setStarted(true);
     }
-  }, [total])
+  }, [lobby, total])
 
   useEffect(() => {
     socket?.on('votingTimer', (newTimer: number) => {

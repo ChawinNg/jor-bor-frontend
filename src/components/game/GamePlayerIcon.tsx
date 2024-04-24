@@ -37,20 +37,20 @@ export default function GamePlayerIcon({
 
   const { socket, setSocket } = useSocket();
 
-  const handleSelect = (sid: string) => {
+  const handleSelect = (uid: string) => {
     if (isNight) {
       if (info.role === Role.Werewolf) {
-        handler(sid);
+        handler(uid);
       }
     } else {
-      handler(sid);
+      handler(uid);
     }
   }
 
   // day vote
   useEffect(() => {
     socket?.on('targetVoted', (votedPlayerId: string) => {
-      if (votedPlayerId === name.socketID) {
+      if (votedPlayerId === name.userId) {
         setAlive(false);
         alert(`player ${name.username} has been voted off`)
       }
@@ -61,7 +61,8 @@ export default function GamePlayerIcon({
   // werewolf kill
   useEffect(() => {
     socket?.on('targetKilled', (votedPlayerId: string) => {
-      if (votedPlayerId === name.socketID) {
+      // if (votedPlayerId === name.socketID) {
+      if (votedPlayerId === name.userId) {
         setAlive(false);
         alert(`player ${name.username} has been killed at night`)
       }
@@ -83,7 +84,7 @@ export default function GamePlayerIcon({
           if (info.alive) {
             setSelect(!isSelect);
             // setNight(!isNight);
-            handleSelect(name.socketID);
+            handleSelect(name.userId);
           }
         }}
       >

@@ -172,7 +172,7 @@ export default function GameCampFire() {
     socket?.on("seerResult", (id: string, role: string) => {
       let name;
       players?.forEach((player) => {
-        if (player.socketID === id && role !== "seer dead") {
+        if (player.userId === id && role !== "seer dead") {
           name = player.username;
           alert(`player ${name} has a role of ${role}`);
         }
@@ -199,8 +199,8 @@ export default function GameCampFire() {
   //   console.log(target);
   // }, [target])
 
-  const handleReceivedValue = (sid: string) => {
-    setTarget(sid);
+  const handleReceivedValue = (uid: string) => {
+    setTarget(uid);
   };
 
   // ---------------- DONT EVER DARE TOUCH --------------------
