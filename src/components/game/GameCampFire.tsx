@@ -80,7 +80,7 @@ export default function GameCampFire() {
         socket?.emit("goNight", id);
       }
     });
-  });
+  }, [socket]);
 
   useEffect(() => {
     socket?.on("targetKilled", (votedPlayerId: string) => {
@@ -88,7 +88,7 @@ export default function GameCampFire() {
         socket?.emit("goCheck", id);
       }
     });
-  });
+  },[socket]);
 
   useEffect(() => {
     socket?.on("votingTimer", (newTimer: number) => {
@@ -181,19 +181,19 @@ export default function GameCampFire() {
         socket?.emit("goDay", id);
       }
     });
-  });
+  },[socket]);
 
   useEffect(() => {
     socket?.on('villagerWin', () => {
       alert('villager wins')
     })
-  })
+  }, [socket])
 
   useEffect(() => {
     socket?.on('werewolfWin', () => {
       alert('werewolf wins')
     })
-  })
+  }, [socket])
 
   // useEffect(() => {
   //   console.log(target);

@@ -56,7 +56,7 @@ export default function GamePlayerIcon({
       }
       // setAlive(votedPlayerId !== name.socketID);
     })
-  })
+  },[socket])
 
   // werewolf kill
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function GamePlayerIcon({
       }
       // setAlive(votedPlayerId !== name.socketID);
     })
-  })
+  },[socket])
 
   return (
     <div className={`flex flex-col justify-center items-center gap-y-2 ${info.alive ? 'cursor-pointer' : 'cursor-default'}`}>
