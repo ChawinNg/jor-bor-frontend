@@ -77,7 +77,7 @@ export default function GameCampFire() {
   useEffect(() => {
     socket?.on("targetVoted", (votedPlayerId: string) => {
       if (user.data._id === id) {
-        socket?.emit("goNext", id);
+        socket?.emit("goNight", id);
       }
     });
   });
@@ -85,7 +85,7 @@ export default function GameCampFire() {
   useEffect(() => {
     socket?.on("targetKilled", (votedPlayerId: string) => {
       if (user.data._id === id) {
-        socket?.emit("goNext", id);
+        socket?.emit("goCheck", id);
       }
     });
   });
@@ -178,7 +178,7 @@ export default function GameCampFire() {
         }
       });
       if (user.data._id === id) {
-        socket?.emit("goNext", id);
+        socket?.emit("goDay", id);
       }
     });
   });
