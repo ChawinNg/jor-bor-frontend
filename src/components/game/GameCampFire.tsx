@@ -76,7 +76,7 @@ export default function GameCampFire() {
 
   useEffect(() => {
     socket?.on("targetVoted", (votedPlayerId: string) => {
-      if (user.data._id === id) {
+      if (user?.data._id === id) {
         socket?.emit("goNight", id);
       }
     });
@@ -84,7 +84,7 @@ export default function GameCampFire() {
 
   useEffect(() => {
     socket?.on("targetKilled", (votedPlayerId: string) => {
-      if (user.data._id === id) {
+      if (user?.data._id === id) {
         socket?.emit("goCheck", id);
       }
     });
@@ -177,7 +177,7 @@ export default function GameCampFire() {
           alert(`player ${name} has a role of ${role}`);
         }
       });
-      if (user.data._id === id) {
+      if (user?.data._id === id) {
         socket?.emit("goDay", id);
       }
     });
